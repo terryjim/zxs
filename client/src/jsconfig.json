@@ -1,0 +1,7 @@
+/*   消除vscode对@connect的错误提示 */
+{
+    "compilerOptions": {
+      "experimentalDecorators": true
+    }
+  }
+
