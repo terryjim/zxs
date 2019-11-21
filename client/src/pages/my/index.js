@@ -8,6 +8,7 @@ import './index.scss'
 import room from '../../assets/images/room.png'
 import discount from '../../assets/images/discount.png'
 import company from '../../assets/images/company.png'
+import car from '../../assets/images/car.png'
 import {apiUrl} from '../../config';
 
 /*@connect(({ my,loading }) => ({
@@ -75,7 +76,7 @@ export default class My extends Component {
     return (
       <View>
         <AtToast isOpened={openMyToast} text={myToastText}></AtToast>
-        <View className='portrait'>
+       {/* <View className='portrait'>
           <View className='at-row at-row__align--center'>
             <View className='at-col at-col-2' >
               <Image className='MyPng' src={this.state.userImg} />
@@ -84,7 +85,7 @@ export default class My extends Component {
               <View className='name'>{this.state.nickname}</View>
             </View>
           </View>
-        </View>
+        </View>*/}
         <View className='defaultView'>
           <View className='at-row at-row__align--center'>
             <View className='at-col at-col-8' onClick={this.redirect.bind(this,"/pages/integral/index")}>
@@ -96,25 +97,32 @@ export default class My extends Component {
             </View>
           </View>
         </View>
+          <View className='defaultView'>
+          上课中，9：00－ 持续4小时3分
+        </View>
         <View className='defaultView'>
           <AtGrid hasBorder={false} onClick={this.onGridClick} columnNum={3} data={
               [
                 {
                   image: room,
-                  value: '我的房屋'
+                  value: '快速充值'
                 },
                 {
                   image: company,
-                  value: '我的企业'
+                  value: '充值记录'
                 },
                 {
                   image: discount,
-                  value: '我的活动'
-                }/*,
+                  value: '上课记录'
+                },
                 {
                   image: car,
-                  value: '我的车辆'
-                }*/
+                  value: '我的预约'
+                },
+                {
+                  image: car,
+                  value: '推广'
+                }
               ]
             }
 
@@ -122,12 +130,12 @@ export default class My extends Component {
         </View>
         <View className='defaultView'>
           <AtList hasBorder={false}>
-            {/* <AtListItem title='我的订单' arrow='right' onClick={this.showInfo.bind(this,"我的订单")} /> */}
-            <AtListItem title='人脸录入' arrow='right' onClick={this.gotoFace.bind(this)} />
+             <AtListItem title='姓名' arrow='right' onClick={this.showInfo.bind(this,"我的订单")} /> 
+            <AtListItem title='手机' arrow='right' onClick={this.gotoFace.bind(this)} />
             {/* <AtListItem title='我的活动' arrow='right' onClick={this.redirect.bind(this,"/pages/activity/index")} /> */}
             <AtListItem title='意见反馈' arrow='right' onClick={this.redirect.bind(this,"/pages/opinionFeedback/index")} />
             <AtListItem title='关于我们' arrow='right' onClick={this.redirect.bind(this,"/pages/about/index")} />
-            <AtListItem title='设置' arrow='right' onClick={this.redirect.bind(this,"/pages/setup/index")} />
+          
           </AtList>
         </View>
       </View>

@@ -8,7 +8,9 @@ export default class Login extends Component {
 
   componentWillMount() {}
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getLogin()
+  }
 
   componentWillUnmount() {}
 

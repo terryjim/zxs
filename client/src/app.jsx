@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
+import 'taro-ui/dist/style/index.scss'
 /*
 import './app.scss'*/
 import './styles/base.scss'
@@ -56,6 +57,11 @@ class App extends Component {
           iconPath: 'assets/images/21133514496txl2x.png',
           selectedIconPath: 'assets/images/21133514365txl_s2x.png'
         }, */ {
+          pagePath: 'pages/my/index',
+          text: '预约',
+          iconPath: 'assets/images/21133514234yp2x.png',
+          selectedIconPath: 'assets/images/21133514102yp_s2x.png'
+        },{
           pagePath: 'pages/my/index',
           text: '我的',
           iconPath: 'assets/images/21133514758w2x.png',
