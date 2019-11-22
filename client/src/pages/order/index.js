@@ -15,7 +15,7 @@ import {apiUrl} from '../../config';
   ...my,...loading,
 }))*/
 
-export default class My extends Component {
+export default class Order extends Component {
   constructor(props) {
     super(props);
     //let userInfo = Taro.getStorageSync("userInfo")
@@ -25,7 +25,7 @@ export default class My extends Component {
     }
   }
   config = {
-    navigationBarTitleText: '我的',
+    navigationBarTitleText: '预约',
   }
     redirect = (url) => Taro.navigateTo({
     url: url
@@ -110,36 +110,104 @@ export default class My extends Component {
             </View>
           </View>
         </View>
-          <View className='defaultView'>
-          上课中，9：00－ 持续4小时3分
-        </View>
-        <View className='defaultView'>
-          <AtGrid hasBorder={false} onClick={this.onGridClick} columnNum={3} data={
+        <Text>暗光区</Text>
+        <View  className='defaultView'>
+          
+          <AtGrid hasBorder={true} onClick={this.onGridClick} columnNum={5} data={
               [
                 {
                   image: room,
-                  value: '快速充值'
+                  value: 'A1'
                 },
-                {
-                  image: company,
-                  value: '充值记录'
+                 {
+                  image: room,
+                  value: 'A2'
+                },  {
+                  image: room,
+                  value: 'A3'
+                },  {
+                  image: room,
+                  value: 'A4'
+                },  {
+                  image: room,
+                  value: 'A5'
+                },  {
+                  image: room,
+                  value: 'A6'
+                },  {
+                  image: room,
+                  value: 'A7'
+                },  {
+                  image: room,
+                  value: 'A8'
+                },  {
+                  image: room,
+                  value: 'A9'
+                }, {
+                  image: room,
+                  value: 'A1'
                 },
-                {
-                  image: discount,
-                  value: '上课记录'
+                 {
+                  image: room,
+                  value: 'A2'
+                },  {
+                  image: room,
+                  value: 'A3'
+                },  {
+                  image: room,
+                  value: 'A4'
+                },  {
+                  image: room,
+                  value: 'A5'
+                },  {
+                  image: room,
+                  value: 'A6'
+                },  {
+                  image: room,
+                  value: 'A7'
+                },  {
+                  image: room,
+                  value: 'A8'
+                },  {
+                  image: room,
+                  value: 'A9'
+                }, {
+                  image: room,
+                  value: 'A1'
                 },
-                {
-                  image: car,
-                  value: '我的预约'
-                },
-                {
-                  image: car,
-                  value: '推广'
+                 {
+                  image: room,
+                  value: 'A2'
+                },  {
+                  image: room,
+                  value: 'A3'
+                },  {
+                  image: room,
+                  value: 'A4'
+                },  {
+                  image: room,
+                  value: 'A5'
+                },  {
+                  image: room,
+                  value: 'A6'
+                },  {
+                  image: room,
+                  value: 'A7'
+                },  {
+                  image: room,
+                  value: 'A8'
+                },  {
+                  image: room,
+                  value: 'A9'
+                },  {
+                  image: room,
+                  value: 'A10'
                 }
               ]
             }
 
           />
+         
         </View>
         <View className='defaultView'>
           <AtList hasBorder={false}>
@@ -156,3 +224,13 @@ export default class My extends Component {
   }
 }
 
+/*(startdate1 BETWEEN startdate2 AND enddate2)
+
+or (enddate1 BETWEEN startdate2 AND enddate2)
+
+or (startdate2 BETWEEN startdate1 AND enddate1)
+
+or (enddate2 BETWEEN startdate1 AND enddate1)
+————————————————
+版权声明：本文为CSDN博主「mypcstyle」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/mypcstyle/article/details/37510145*/

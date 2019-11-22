@@ -14,7 +14,8 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index',
+     
+        'pages/order/index', 'pages/index/index',
        'pages/my/index',
     ],
     window: {
@@ -57,7 +58,7 @@ class App extends Component {
           iconPath: 'assets/images/21133514496txl2x.png',
           selectedIconPath: 'assets/images/21133514365txl_s2x.png'
         }, */ {
-          pagePath: 'pages/my/index',
+          pagePath: 'pages/order/index',
           text: '预约',
           iconPath: 'assets/images/21133514234yp2x.png',
           selectedIconPath: 'assets/images/21133514102yp_s2x.png'
