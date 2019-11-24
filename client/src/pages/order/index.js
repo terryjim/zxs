@@ -46,7 +46,7 @@ export default class Order extends Component {
   }
   onGridClick = (item, number) => {
     if(!this.state.occupied.includes(item.value)){
-      this.redirect("/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}");
+      this.redirect(`/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}`);
     }
     
 
@@ -159,7 +159,7 @@ export default class Order extends Component {
             开始日期：{this.state.selectStart}
           </View>
         </Picker>
-        <Picker mode='date' onChange={this.onDateChange}>
+        <Picker mode='date' onChange={this.onDateChange.bind(this, 'end')}>
           <View className='picker'>
             截止日期：{this.state.selectEnd}
           </View>
