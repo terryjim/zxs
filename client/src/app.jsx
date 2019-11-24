@@ -14,9 +14,9 @@ class App extends Component {
 
   config = {
     pages: [
-     
-        'pages/order/index', 'pages/index/index',
-       'pages/my/index',
+
+      'pages/order/index', 'pages/index/index',
+      'pages/my/index','pages/order/confirm',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -62,34 +62,34 @@ class App extends Component {
           text: '预约',
           iconPath: 'assets/images/21133514234yp2x.png',
           selectedIconPath: 'assets/images/21133514102yp_s2x.png'
-        },{
+        }, {
           pagePath: 'pages/my/index',
           text: '我的',
           iconPath: 'assets/images/21133514758w2x.png',
           selectedIconPath: 'assets/images/21133514592w_s2x.png'
         },
       ]
-    
-  },
+
+    },
     cloud: true
   }
 
 
-  componentDidMount () {
+  componentDidMount() {
     if (process.env.TARO_ENV === 'weapp') {
       Taro.cloud.init()
     }
   }
 
-  componentDidShow () {}
+  componentDidShow() { }
 
-  componentDidHide () {}
+  componentDidHide() { }
 
-  componentDidCatchError () {}
+  componentDidCatchError() { }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
+  render() {
     return (
       <Index />
     )

@@ -13,7 +13,7 @@ import { getFormatDate, DateAdd } from '../../utils/date'
   ...my,...loading,
 }))*/
 
-export default class Order extends Component {
+export default class OrderConfirm extends Component {
   constructor(props) {
     super(props);
     //let userInfo = Taro.getStorageSync("userInfo")
@@ -29,7 +29,7 @@ export default class Order extends Component {
     }
   }
   config = {
-    navigationBarTitleText: '预约',
+    navigationBarTitleText: '预约确认',
   }
   redirect = (url) => Taro.navigateTo({
     url: url
@@ -46,7 +46,7 @@ export default class Order extends Component {
   }
   onGridClick = (item, number) => {
     if(!this.state.occupied.includes(item.value)){
-      this.redirect("/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}");
+      this.redirect("/pages/order/order");
     }
     
 
@@ -114,7 +114,11 @@ export default class Order extends Component {
         })
       })
   }
-
+  
+    componentWillMount () {
+      console.log(this.$router.params) 
+    }
+  
   render() {
 
     let { openMyToast, myToastText, mybonusList } = this.props
