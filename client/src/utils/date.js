@@ -38,47 +38,52 @@ export function DateAdd(interval='d', number=1, date=new Date()) {
     case "y ": {
         date.setFullYear(date.getFullYear() + number);
         return date;
-        break;
+       
     }
     case "q ": {
         date.setMonth(date.getMonth() + number * 3);
         return date;
-        break;
+      
     }
     case "m ": {
         date.setMonth(date.getMonth() + number);
         return date;
-        break;
+      
     }
     case "w ": {
         date.setDate(date.getDate() + number * 7);
         return date;
-        break;
+      
     }
     case "d ": {
         date.setDate(date.getDate() + number);
         return date;
-        break;
+       
     }
     case "h ": {
         date.setHours(date.getHours() + number);
         return date;
-        break;
+       
     }
     case "M ": {
         date.setMinutes(date.getMinutes() + number);
         return date;
-        break;
+       
     }
     case "s ": {
         date.setSeconds(date.getSeconds() + number);
         return date;
-        break;
+        
     }
     default: {
         date.setDate(date.getDate() + number);
         return date;
-        break;
+        
     }
     }
+}
+
+export function strToDate(str){
+    //var str1 = "2014-12-31 00:55:55"  yyyy-mm-dd这种格式的字符串转化成日期对象可以用
+    return new Date(Date.parse(str.replace(/-/g,"/")));
 }

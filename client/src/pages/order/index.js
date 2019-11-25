@@ -8,7 +8,7 @@ import discount from '../../assets/images/discount.png'
 import company from '../../assets/images/company.png'
 import car from '../../assets/images/car.png'
 import { apiUrl } from '../../config';
-import { getFormatDate, DateAdd } from '../../utils/date'
+import { getFormatDate, DateAdd,strToDate } from '../../utils/date'
 /*@connect(({ my,loading }) => ({
   ...my,...loading,
 }))*/
@@ -46,7 +46,7 @@ export default class Order extends Component {
   }
   onGridClick = (item, number) => {
     if(!this.state.occupied.includes(item.value)){
-      this.redirect("/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}");
+      this.redirect(`/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}`);
     }
     
 
@@ -102,13 +102,16 @@ export default class Order extends Component {
   }
   onSearch = () => {
     //根据选中的日期段在数据库中查询所有被占用的座位 
+    console.log(this.state.selectStart)
+     console.log(this.state.selectEnd)
     Taro.cloud
       .callFunction({
         name: "getOccupied",
-        data: { start: this.state.selectStart, end: this.state.selectEnd }
+        data: { start:this.state.selectStart, end: this.state.selectEnd }
       })
       .then(res => {
-        console.log(res.result)
+        console.log('-------------------------------')
+        console.log(res)
         this.setState({
           context: res.result
         })
@@ -159,7 +162,7 @@ export default class Order extends Component {
             开始日期：{this.state.selectStart}
           </View>
         </Picker>
-        <Picker mode='date' onChange={this.onDateChange}>
+        <Picker mode='date' onChange={this.onDateChange.bind(this, 'end')}>
           <View className='picker'>
             截止日期：{this.state.selectEnd}
           </View>
@@ -169,11 +172,13 @@ export default class Order extends Component {
         <View className='defaultView'>
 
           <AtGrid hasBorder={false} /* mode='rect' */ onClick={this.onGridClick} columnNum={6} data={
-            new Array(34).fill(1).map((x, index) => ({
+            new Array(34).fill(1).map((x, index) => (
+             
+              {
               //image: room,
               iconInfo: {
                 size: 15,
-                color: 'green',
+                color: this.state.occupied.includes(x)?'#cccccc':'green',
                 value: 'calendar'
               },
               value: 'A' + (index + 1)
