@@ -61,6 +61,7 @@ export default class OrderConfirm extends Component {
       })
 }
   render() {
+
     let {desk,start,end } = this.$router.params
     return (
       <View className='defaultView'>
