@@ -3,23 +3,26 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database();
 const _ = db.command
+const $ = db.command.aggregate
 /* const table = db.collection('appointment') */
-exports.main = async (event) => {    
-   try {
-   const ret=await db.collection('appointment').where(
-      /*_.or([{start:_.lte(event.start),end:_.gte(event.end)},{start:_.gte(event.start),start:_.lte(event.end)}])*/
-     /* _.or([{desk:'A06'},{
-    start: _.lte('2019-11-25')
- ,end:_.gte('2019-11-26') },{
-    start: _.gte('2019-11-25')
- ,start:_.lte('2019-11-26') }])*/
- {desk:'A6'}
-)
-return ret
+exports.main = async (event) => {
 
-  }catch (e) {
-    return '预约失败:' + JSON.stringify(e)
-  }
+  return await db.collection('appointment').aggregate().match( _.or([{start:_.lte(event.start),end:_.gte(event.end)},{start:_.gte(event.start),start:_.lte(event.end)}])  )
+  .group({
+    // 按 category 字段分组
+    _id: '$desk',   
+/*    count: $.sum(1)*/
+  })
+  .end()
+  /*return await db.collection('appointment').field({_id:false,desk:true}).where(
+    _.or([{start:_.lte(event.start),end:_.gte(event.end)},{start:_.gte(event.start),start:_.lte(event.end)}])  
+  ).get({
+    success: function (res) {
+      // res.data 是包含以上定义的两条记录的数组
+      return res
+     // console.log(res.result.data)
+    }
+  })*/
 }
 
 /* 
