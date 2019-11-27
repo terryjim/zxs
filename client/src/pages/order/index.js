@@ -22,8 +22,8 @@ export default class Order extends Component {
       selectPersChecked: '单人',
       selectLimit: ['单日', '7天', '30天', '90天', '自选'],
       selectLimitChecked: '单日',
-      selectStart: getFormatDate(DateAdd('d', 1)),
-      selectEnd: getFormatDate(DateAdd('d', 1)),
+      selectStart: getFormatDate(DateAdd(new Date(), 'd', 1)),
+      selectEnd: getFormatDate(DateAdd(new Date(), 'd', 1)),
       //被战胜座位
       occupied: []
     }
@@ -38,7 +38,7 @@ export default class Order extends Component {
   gotoFace = () => Taro.navigateTo({
     url: '/pages/face/index'
   })
- showInfo = (title) => {
+  showInfo = (title) => {
     Taro.showToast({
       title: title + "正在上架，敬请期待！",
       icon: 'none',
@@ -47,8 +47,8 @@ export default class Order extends Component {
   onGridClick = (item, number) => {
     if (!this.state.occupied.includes(item.value)) {
       this.redirect(`/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}`);
-    }else{
-      Taro.showToast({title:'该桌位已被预定',icon:'none'})
+    } else {
+      Taro.showToast({ title: '该桌位已被预定', icon: 'none' })
     }
 
 
@@ -66,11 +66,12 @@ export default class Order extends Component {
         })
       })
   }
-  componentDidMount(){
-   
+  componentDidMount() {
+
   }
   componentDidShow() {
-     this.onSearch()
+    console.log('----------------------------------------------')
+    this.onSearch()
     /* let userInfo = Taro.getStorageSync('userInfo')
      if(!userInfo || !userInfo.access_token){
          Taro.navigateTo({url:"/pages/register/index"})
@@ -93,51 +94,52 @@ export default class Order extends Component {
       selectLimitChecked: this.state.selectLimit[e.detail.value]
     })
   }
-
   onDateChange = (v, e) => {
+    console.log('|||||||||||||||||||||||||||||||||||||||')
     console.log(v)
-    console.log(e)
-    if (v === 'start'){
-      
+    console.log(e.detail.value)
+    console.log('add:' + getFormatDate(DateAdd(new Date(e.detail.value), 'd', -1)))
+    console.log('del:' + getFormatDate(DateAdd(new Date(e.detail.value), 'd', 2)))
+
+    if (v === 'start') {
       this.setState({
-        selectStart: e.detail.value
+        selectStart: e.detail.value,
       })
-      switch(this.state.selectLimitChecked){
+      switch (this.state.selectLimitChecked) {
         case '单日':
-        this.setState({selectEnd:e.detail.value})
-        break
-        case '7天':       
-         this.setState({selectEnd:getFormatDate(DateAdd(new Date(e.detail.value),7))})
-        break
+          this.setState({ selectEnd: e.detail.value })
+          break
+        case '7天':
+          this.setState({ selectEnd: getFormatDate(DateAdd(new Date(e.detail.value), 'd', 7)) })
+          break
         case '30天':
-           this.setState({selectEnd:getFormatDate(DateAdd(new Date(e.detail.value),30))})
-        break
+          this.setState({ selectEnd: getFormatDate(DateAdd(new Date(e.detail.value), 'd', 30)) })
+          break
         case '90天':
-           this.setState({selectEnd:getFormatDate(DateAdd(new Date(e.detail.value),90))})
-        break
-        
+          this.setState({ selectEnd: getFormatDate(DateAdd(new Date(e.detail.value), 'd', 90)) })
+          break
       }
-     
-  }
-    if (v === 'end')
+
+    }
+    if (v === 'end') {
       this.setState({
         selectEnd: e.detail.value
       })
-       switch(this.state.selectLimitChecked){
+      switch (this.state.selectLimitChecked) {
         case '单日':
-        this.setState({selectStart:e.detail.value})
-        break
-        case '7天':       
-         this.setState({selectStart:getFormatDate(DateAdd(new Date(e.detail.value),-7))})
-        break
+          this.setState({ selectStart: e.detail.value })
+          break
+        case '7天':
+          this.setState({ selectStart: getFormatDate(DateAdd(new Date(e.detail.value), 'd', -7)) })
+          break
         case '30天':
-           this.setState({selectStart:getFormatDate(DateAdd(new Date(e.detail.value),-30))})
-        break
+          this.setState({ selectStart: getFormatDate(DateAdd(new Date(e.detail.value), 'd', -30)) })
+          break
         case '90天':
-           this.setState({selectStart:getFormatDate(DateAdd(new Date(e.detail.value),-90))})
-        break
-        
+          this.setState({ selectStart: getFormatDate(DateAdd(new Date(e.detail.value), 'd', -90)) })
+          break
       }
+    }
   }
   onSearch = () => {
     //根据选中的日期段在数据库中查询所有被占用的座位 
@@ -149,11 +151,11 @@ export default class Order extends Component {
         data: { start: this.state.selectStart, end: this.state.selectEnd }
       })
       .then(res => {
-        let occupiedDesk=[]
-        if(res.result&&res.result.list){
-          res.result.list.map(x=>occupiedDesk.push(x._id))
+        let occupiedDesk = []
+        if (res.result && res.result.list) {
+          res.result.list.map(x => occupiedDesk.push(x._id))
         }
-       console.log(occupiedDesk)
+        console.log(occupiedDesk)
         this.setState({
           occupied: occupiedDesk
         })
@@ -202,12 +204,12 @@ export default class Order extends Component {
           </View>
         </Picker>
 
-        <Picker mode='date' onChange={this.onDateChange.bind(this, 'start')}>
+        <Picker mode='date'  value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
           <View className='picker'>
             开始日期：{this.state.selectStart}
           </View>
         </Picker>
-        <Picker mode='date' onChange={this.onDateChange.bind(this, 'end')}>
+        <Picker mode='date' value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
           <View className='picker'>
             截止日期：{this.state.selectEnd}
           </View>
@@ -224,7 +226,7 @@ export default class Order extends Component {
                 iconInfo: {
                   size: 15,
                   color: this.state.occupied.includes('A' + (index + 1)) ? '#cccccc' : 'blue',
-                  value: this.state.occupied.includes('A' + (index + 1)) ?'subtract-circle':'calendar'
+                  value: this.state.occupied.includes('A' + (index + 1)) ? 'subtract-circle' : 'calendar'
                 },
                 value: 'A' + (index + 1)
 
@@ -235,7 +237,7 @@ export default class Order extends Component {
           />
 
         </View>
-       {/* <View className='defaultView'>
+        {/* <View className='defaultView'>
           <AtList hasBorder={false}>
             <AtListItem title='姓名' arrow='right' onClick={this.showInfo.bind(this, "我的订单")} />
             <AtListItem title='手机' arrow='right' onClick={this.gotoFace.bind(this)} />

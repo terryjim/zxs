@@ -22,8 +22,8 @@ export default class OrderConfirm extends Component {
       selectPersChecked: '单人',
       selectLimit: ['单日', '单周', '单月', '单季', '自选'],
       selectLimitChecked: '单日',
-      selectStart: getFormatDate(DateAdd('d', 1)),
-      selectEnd: getFormatDate(DateAdd('d', 1)),
+      selectStart: getFormatDate(DateAdd( new Date(),'d', 1)),
+      selectEnd: getFormatDate(DateAdd(new Date(),'d', 1)),
       //被战胜座位
       occupied: []
     }

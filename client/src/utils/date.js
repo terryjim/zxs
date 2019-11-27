@@ -27,13 +27,13 @@ export function getFormatDate(date) {
         strDate = "0" + strDate
     }
     let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-    console.log(currentdate)
+  
     return currentdate
 
 }
 
 
-export function DateAdd(interval='d', number=1, date=new Date()) {
+export function DateAdd( date=new Date(),interval='d', number=1,) {
     switch (interval) {
     case "y ": {
         date.setFullYear(date.getFullYear() + number);
