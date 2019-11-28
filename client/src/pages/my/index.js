@@ -10,7 +10,10 @@ import discount from '../../assets/images/discount.png'
 import company from '../../assets/images/company.png'
 import car from '../../assets/images/car.png'
 import {apiUrl} from '../../config';
-
+import rpx2px from '../../utils/rpx2px.js'
+import { createQrCode } from '../../utils/qrCode.js'
+const qrcodeWidth = rpx2px(350)
+const QRCode = require('../../utils/weapp-qrcode.js')
 /*@connect(({ my,loading }) => ({
   ...my,...loading,
 }))*/
@@ -71,7 +74,7 @@ export default class My extends Component {
         })
       })
   }
-  componentDidShow() {
+  componentDidMount() {
    /* let userInfo = Taro.getStorageSync('userInfo')
     if(!userInfo || !userInfo.access_token){
         Taro.navigateTo({url:"/pages/register/index"})
@@ -81,8 +84,32 @@ export default class My extends Component {
       userImg:apiUrl.userImg+'?size=middle&openid='+userInfo.openid
     })
     this.props.dispatch({ type: 'my/mybonus'})*/
-  }
+  /*   let userInfo = Taro.getStorageSync('userInfo')
+    if(!userInfo || !userInfo.access_token){
+        Taro.navigateTo({url:"/pages/register/index"})
+    } */
+    //let qqq=Taro.createCanvasContext('canvas', this.$scope)
 
+    let qrcode = new QRCode('canvas', {
+        usingIn: this.$scope,
+        // text: "https://github.com/tomfriwel/weapp-qrcode",
+        text: createQrCode('userInfo.openid'),
+        //image: '/images/bg.jpg',
+        width: qrcodeWidth,
+        height: qrcodeWidth,
+        colorDark: "#000",
+        colorLight: "white",
+        correctLevel: QRCode.CorrectLevel.H,
+    });
+
+    this.timerID = setInterval(
+        () => qrcode.makeCode(createQrCode('userInfo.openid')),
+        3000
+    )
+  }
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+}
   render() {
     
     let {openMyToast,myToastText,mybonusList}=this.props
@@ -110,6 +137,11 @@ export default class My extends Component {
             </View>
           </View>
         </View>
+        111
+        <View className='qrBg' >
+                    <Canvas className='qrCanvas' canvasId='canvas' >
+                    </Canvas>
+                </View>222
           <View className='defaultView'>
           上课中，9：00－ 持续4小时3分
         </View>
