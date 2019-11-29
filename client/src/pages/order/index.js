@@ -25,7 +25,8 @@ export default class Order extends Component {
       selectStart: getFormatDate(DateAdd(new Date(), 'd', 1)),
       selectEnd: getFormatDate(DateAdd(new Date(), 'd', 1)),
       //被战胜座位
-      occupied: []
+      occupied: [],
+      loading:false
     }
   }
   config = {
@@ -145,6 +146,7 @@ export default class Order extends Component {
     //根据选中的日期段在数据库中查询所有被占用的座位 
     console.log(this.state.selectStart)
     console.log(this.state.selectEnd)
+    this.setState({loading:true})
     Taro.cloud
       .callFunction({
         name: "getOccupied",
@@ -159,10 +161,12 @@ export default class Order extends Component {
         this.setState({
           occupied: occupiedDesk
         })
+         this.setState({loading:false})
       }).catch(err => {
         console.error(err)
-
+         this.setState({loading:false})
       })
+       
   }
 
   render() {
@@ -192,24 +196,26 @@ export default class Order extends Component {
               {/* <View className='conversion' onClick={this.showInfo.bind(this,"兑换物品")}>兑换物品</View> */}
             </View>
           </View>
-        </View>
-        <Picker mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
+        </View><View className='at-row'>
+ 
+
+        <Picker className='at-col  at-col__offset-2 at-col-6' mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
           <View className='picker'>
             {this.state.selectPersChecked}
           </View>
         </Picker>
-        <Picker mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
+        <Picker className='at-col at-col-6' mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
           <View className='picker'>
             {this.state.selectLimitChecked}
           </View>
         </Picker>
-
-        <Picker mode='date'  value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
+</View>
+        <Picker mode='date'  minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
           <View className='picker'>
             开始日期：{this.state.selectStart}
           </View>
         </Picker>
-        <Picker mode='date' value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
+        <Picker mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
           <View className='picker'>
             截止日期：{this.state.selectEnd}
           </View>
@@ -247,6 +253,13 @@ export default class Order extends Component {
 
           </AtList>
         </View>*/}
+        <AtModal isOpened={this.state.loading}>
+  
+  <AtModalContent>
+    查询中...
+  </AtModalContent>
+  
+</AtModal>
       </View>
     )
   }
