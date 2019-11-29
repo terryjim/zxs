@@ -7,7 +7,7 @@ const $ = db.command.aggregate
 /* const table = db.collection('appointment') */
 exports.main = async (event) => {
 
-  return await db.collection('appointment').aggregate().match( _.or([{start:_.lte(event.start),end:_.gte(event.end)},{start:_.gte(event.start),start:_.lte(event.end)}])  )
+  return await db.collection('appointment').aggregate().match( _.or([{start:_.lte(event.start),end:_.gte(event.end)},{start:_.gte(event.start).and(_.lte(event.end))}])  )
   .group({
     // 按 category 字段分组
     _id: '$desk',   

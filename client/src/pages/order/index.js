@@ -26,7 +26,7 @@ export default class Order extends Component {
       selectEnd: getFormatDate(DateAdd(new Date(), 'd', 1)),
       //被战胜座位
       occupied: [],
-      loading:false
+      loading: false
     }
   }
   config = {
@@ -68,20 +68,9 @@ export default class Order extends Component {
       })
   }
   componentDidMount() {
-
+    this.onSearch()
   }
   componentDidShow() {
-    console.log('----------------------------------------------')
-    this.onSearch()
-    /* let userInfo = Taro.getStorageSync('userInfo')
-     if(!userInfo || !userInfo.access_token){
-         Taro.navigateTo({url:"/pages/register/index"})
-     }
-     this.setState({
-       nickname:userInfo.nickname,
-       userImg:apiUrl.userImg+'?size=middle&openid='+userInfo.openid
-     })
-     this.props.dispatch({ type: 'my/mybonus'})*/
   }
   //选择人数
   onSelPers = e => {
@@ -96,12 +85,12 @@ export default class Order extends Component {
     })
   }
   onDateChange = (v, e) => {
-    console.log('|||||||||||||||||||||||||||||||||||||||')
-    console.log(v)
-    console.log(e.detail.value)
-    console.log('add:' + getFormatDate(DateAdd(new Date(e.detail.value), 'd', -1)))
-    console.log('del:' + getFormatDate(DateAdd(new Date(e.detail.value), 'd', 2)))
-
+    /* console.log('|||||||||||||||||||||||||||||||||||||||')
+     console.log(v)
+     console.log(e.detail.value)
+     console.log('add:' + getFormatDate(DateAdd(new Date(e.detail.value), 'd', -1)))
+     console.log('del:' + getFormatDate(DateAdd(new Date(e.detail.value), 'd', 2)))
+ */
     if (v === 'start') {
       this.setState({
         selectStart: e.detail.value,
@@ -146,7 +135,10 @@ export default class Order extends Component {
     //根据选中的日期段在数据库中查询所有被占用的座位 
     console.log(this.state.selectStart)
     console.log(this.state.selectEnd)
-    this.setState({loading:true})
+    this.setState({ loading: true })
+    Taro.showLoading({
+      //title: '查询中'
+    })
     Taro.cloud
       .callFunction({
         name: "getOccupied",
@@ -161,12 +153,14 @@ export default class Order extends Component {
         this.setState({
           occupied: occupiedDesk
         })
-         this.setState({loading:false})
+        // this.setState({ loading: false })
+        Taro.hideLoading()
       }).catch(err => {
         console.error(err)
-         this.setState({loading:false})
+        //this.setState({ loading: false })
+        Taro.hideLoading()
       })
-       
+
   }
 
   render() {
@@ -185,53 +179,46 @@ export default class Order extends Component {
             </View>
           </View>
         </View>*/}
-        <View className='defaultView'>
-          <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-8' onClick={this.redirect.bind(this, "/pages/integral/index")}>
-              <View className='integralValue'>{mybonusList.totalbonus}</View>
-              <View className='integralName'>积分值</View>
-              <AtIcon value='clock' size='30' color='#F00'></AtIcon>
+        <Text>选择条件</Text>
+        <View className='at-row'>
+          <Text className='at-col  at-col__offset-1 at-col-2'>人数：</Text>
+          <Picker className='at-col  at-col-2' mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
+            <View className='picker'>
+              {this.state.selectPersChecked}
             </View>
-            <View className='at-col at-col-4' >
-              {/* <View className='conversion' onClick={this.showInfo.bind(this,"兑换物品")}>兑换物品</View> */}
+          </Picker>
+          <Text className='at-col  at-col__offset-1 at-col-2'>时长:</Text>
+          <Picker className='at-col at-col-4' mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
+            <View className='picker'>
+              {this.state.selectLimitChecked}
             </View>
-          </View>
-        </View><View className='at-row'>
- 
-
-        <Picker className='at-col  at-col__offset-2 at-col-6' mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
-          <View className='picker'>
-            {this.state.selectPersChecked}
-          </View>
-        </Picker>
-        <Picker className='at-col at-col-6' mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
-          <View className='picker'>
-            {this.state.selectLimitChecked}
-          </View>
-        </Picker>
-</View>
-        <Picker mode='date'  minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
-          <View className='picker'>
-            开始日期：{this.state.selectStart}
-          </View>
-        </Picker>
-        <Picker mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
-          <View className='picker'>
-            截止日期：{this.state.selectEnd}
-          </View>
-        </Picker>
+          </Picker>
+        </View>
+        <View className='at-row'>
+          <Text className='at-col  at-col__offset-1 at-col-2'>开始：</Text>
+          <Picker className='at-col  at-col-2' mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
+            <View className='picker'>
+              {this.state.selectStart}
+            </View>
+          </Picker>
+          <Text className='at-col  at-col__offset-1 at-col-2'>截止：</Text>
+          <Picker className='at-col  at-col-4' mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
+            <View className='picker'>
+              {this.state.selectEnd}
+            </View>
+          </Picker>
+        </View>
         <Button onClick={this.onSearch}>查询</Button>
+       
         <Text>暗光区</Text>
-        <View className='defaultView'>
-
-          <AtGrid hasBorder={false} /* mode='rect' */ onClick={this.onGridClick} columnNum={6} data={
+        <View className='defaultView' style={{backgroundColor:'#cccccc'}}> 
+          <AtGrid hasBorder={false} /* mode='rect' */  onClick={this.onGridClick} columnNum={6} data={
             new Array(34).fill(1).map((x, index) => (
-
               {
                 //image: room,
                 iconInfo: {
                   size: 15,
-                  color: this.state.occupied.includes('A' + (index + 1)) ? '#cccccc' : 'blue',
+                  color: this.state.occupied.includes('A' + (index + 1)) ? '#000000' : '#ffffff',
                   value: this.state.occupied.includes('A' + (index + 1)) ? 'subtract-circle' : 'calendar'
                 },
                 value: 'A' + (index + 1)
@@ -239,9 +226,73 @@ export default class Order extends Component {
               })
             )
           }
-
           />
+        </View>
+         <Text>日光区</Text>
+        <View className='defaultView'>
+          <AtGrid hasBorder={false} /* mode='rect' */ onClick={this.onGridClick} columnNum={6} data={
+            new Array(10).fill(1).map((x, index) => (
+              {
+                //image: room,
+                iconInfo: {
+                  size: 15,
+                  color: this.state.occupied.includes('B' + (index + 1)) ? '#cccccc' : 'blue',
+                  value: this.state.occupied.includes('B' + (index + 1)) ? 'subtract-circle' : 'calendar'
+                },
+                value: 'B' + (index + 1)
 
+              })
+            )
+          }
+          />
+        </View>
+         <Text>带帘桌位</Text>
+        <View className='defaultView'>
+          <AtGrid hasBorder={false} /* mode='rect' */ onClick={this.onGridClick} columnNum={6} data={
+            new Array(6).fill(1).map((x, index) => (
+              {
+                //image: room,
+                iconInfo: {
+                  size: 15,
+                  color: this.state.occupied.includes('C' + (index + 1)) ? '#cccccc' : 'blue',
+                  value: this.state.occupied.includes('C' + (index + 1)) ? 'subtract-circle' : 'calendar'
+                },
+                value: 'C' + (index + 1)
+              })
+            )
+          }
+          />
+        </View>
+         <Text>独立单间</Text>
+        <View className='defaultView'>
+          <AtGrid hasBorder={false} /* mode='rect' */ onClick={this.onGridClick} columnNum={6} data={
+           [{
+                //image: room,
+                iconInfo: {
+                  size: 15,
+                  color: this.state.occupied.includes('V2' ) ? '#cccccc' : 'blue',
+                  value: this.state.occupied.includes('V2') ? 'subtract-circle' : 'calendar'
+                },
+                value: 'V2' 
+
+              }]}
+          />
+        </View>
+         <Text>独立双人间</Text>
+        <View className='defaultView'>
+          <AtGrid hasBorder={false} /* mode='rect' */ onClick={this.onGridClick} columnNum={6} data={
+            [1,3,4].map((x, index) => (
+              {
+                //image: room,
+                iconInfo: {
+                  size: 15,
+                  color: this.state.occupied.includes('C' + x) ? '#cccccc' : 'blue',
+                  value: this.state.occupied.includes('C' + x) ? 'subtract-circle' : 'calendar'
+                },
+                value: 'V' + x
+              })
+            )}
+          />
         </View>
         {/* <View className='defaultView'>
           <AtList hasBorder={false}>
@@ -253,14 +304,14 @@ export default class Order extends Component {
 
           </AtList>
         </View>*/}
-        <AtModal isOpened={this.state.loading}>
-  
-  <AtModalContent>
-    查询中...
+        {/*  <AtModal isOpened={this.state.loading}>*/}
+
+        {/*       <AtModalContent>
+            查询中...
   </AtModalContent>
-  
-</AtModal>
-      </View>
+
+        </AtModal>*/}
+      </View >
     )
   }
 }
