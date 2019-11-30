@@ -4,7 +4,8 @@ page,
 body {
   font-size: 32px; //页面缺省字体大小
   height: 100%;
-  background-color: $bg-color-base;
+ /*  background-color: $bg-color-base */
+  background-color: $bg-color-light;
   color: $color-dark;
   box-sizing: border-box;
 }
@@ -77,8 +78,9 @@ button {
 /////////////////////////////
 .defaultView {
   //缺省样式，缩进10px
-  margin: 20px
+  margin:10px
 }
+
 
 .defaultBorderView {
   //缺省带边框view
@@ -86,7 +88,11 @@ button {
   border-radius: 5px;
   border: 1px solid #EFEFEF;
 }
-
+.hasBorder{
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  text-align: center;
+}
 .mainTitle {
   //标题样式
   font-size: 48px; //页面缺省字体大小

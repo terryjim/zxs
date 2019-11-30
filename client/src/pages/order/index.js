@@ -179,8 +179,35 @@ export default class Order extends Component {
             </View>
           </View>
         </View>*/}
-        <Text>选择条件</Text>
-        <View className='at-row'>
+        <View style={{height:'100px',background:'#cccccc',marginBottom:'20px'}}>
+        <Text >条件选择</Text>
+        </View>
+         {/*  <Text className='at-col  at-col__offset-1 at-col-2'>人数：</Text> */}
+          <View className='at-row' >
+         
+            <Picker  className='at-col  at-col-2 hasBorder' style={{marginRight:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
+            <View className='picker'>
+              {this.state.selectPersChecked}
+            </View>
+          </Picker>
+        
+          <Picker className='at-col at-col-2 hasBorder' style={{marginRight:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
+            <View className='picker'>
+              {this.state.selectLimitChecked}
+            </View>
+          </Picker>
+          <Picker className='at-col  at-col-3 hasBorder'  style={{marginRight:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
+            <View className='picker'>
+              {this.state.selectStart}
+            </View>
+          </Picker>
+         _
+          <Picker className='at-col  at-col-3 hasBorder'  style={{marginLeft:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
+            <View className='picker'>
+              {this.state.selectEnd}
+            </View>
+          </Picker></View>
+        {/* <View className='at-row'>
           <Text className='at-col  at-col__offset-1 at-col-2'>人数：</Text>
           <Picker className='at-col  at-col-2' mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
             <View className='picker'>
@@ -207,7 +234,7 @@ export default class Order extends Component {
               {this.state.selectEnd}
             </View>
           </Picker>
-        </View>
+        </View> */}
         <Button onClick={this.onSearch}>查询</Button>
        
         <Text>暗光区</Text>
