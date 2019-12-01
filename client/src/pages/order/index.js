@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image, Picker, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtList, AtListItem, AtGrid, AtToast, AtIcon, AtModal } from 'taro-ui'
+import { AtList, AtListItem, AtGrid, AtToast, AtIcon, AtModal,AtButton } from 'taro-ui'
 import './index.scss'
 import room from '../../assets/images/room.png'
 import discount from '../../assets/images/discount.png'
@@ -36,7 +36,7 @@ export default class Order extends Component {
     url: url
   })
 
-  gotoFace = () => Taro.navigateTo({
+  /* gotoFace = () => Taro.navigateTo({
     url: '/pages/face/index'
   })
   showInfo = (title) => {
@@ -44,7 +44,7 @@ export default class Order extends Component {
       title: title + "正在上架，敬请期待！",
       icon: 'none',
     });
-  }
+  } */
   onGridClick = (item, number) => {
     if (!this.state.occupied.includes(item.value)) {
       this.redirect(`/pages/order/confirm?desk=${item.value}&start=${this.state.selectStart}&end=${this.state.selectEnd}`);
@@ -54,7 +54,7 @@ export default class Order extends Component {
 
 
   }
-  charge = () => {
+ /*  charge = () => {
     Taro.cloud
       .callFunction({
         name: "charge",
@@ -66,7 +66,7 @@ export default class Order extends Component {
           context: res.result
         })
       })
-  }
+  } */
   componentDidMount() {
     this.onSearch()
   }
@@ -133,8 +133,8 @@ export default class Order extends Component {
   }
   onSearch = () => {
     //根据选中的日期段在数据库中查询所有被占用的座位 
-    console.log(this.state.selectStart)
-    console.log(this.state.selectEnd)
+   /*  console.log(this.state.selectStart)
+    console.log(this.state.selectEnd) */
     this.setState({ loading: true })
     Taro.showLoading({
       //title: '查询中'
@@ -149,7 +149,7 @@ export default class Order extends Component {
         if (res.result && res.result.list) {
           res.result.list.map(x => occupiedDesk.push(x._id))
         }
-        console.log(occupiedDesk)
+        //console.log(occupiedDesk)
         this.setState({
           occupied: occupiedDesk
         })
@@ -179,63 +179,36 @@ export default class Order extends Component {
             </View>
           </View>
         </View>*/}
-        <View style={{height:'100px',background:'#cccccc',marginBottom:'20px'}}>
+       {/*  <View style={{height:'100px',background:'#cccccc',marginBottom:'20px'}}>
         <Text >条件选择</Text>
-        </View>
+        </View> */}
          {/*  <Text className='at-col  at-col__offset-1 at-col-2'>人数：</Text> */}
-          <View className='at-row' >
+          <View className='at-row at-row__justify--around' style={{height:'40px',marginTop:'10px'}}>
          
-            <Picker  className='at-col  at-col-2 hasBorder' style={{marginRight:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
+            <Picker  className='at-col  at-col-2 hasBorder searchCondition' style={{height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
             <View className='picker'>
               {this.state.selectPersChecked}
             </View>
           </Picker>
         
-          <Picker className='at-col at-col-2 hasBorder' style={{marginRight:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
+          <Picker className='at-col at-col-2 hasBorder' style={{height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
             <View className='picker'>
               {this.state.selectLimitChecked}
             </View>
           </Picker>
-          <Picker className='at-col  at-col-3 hasBorder'  style={{marginRight:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
+          <Picker className='at-col  at-col-3 hasBorder'  style={{height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
             <View className='picker'>
               {this.state.selectStart}
             </View>
           </Picker>
          _
-          <Picker className='at-col  at-col-3 hasBorder'  style={{marginLeft:'5px',height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
+          <Picker className='at-col  at-col-3 hasBorder'  style={{height:'30px', display: 'flex',  justifyContent:'center', alignItems: 'center'}} mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
             <View className='picker'>
               {this.state.selectEnd}
             </View>
           </Picker></View>
-        {/* <View className='at-row'>
-          <Text className='at-col  at-col__offset-1 at-col-2'>人数：</Text>
-          <Picker className='at-col  at-col-2' mode='selector' range={this.state.selectPers} onChange={this.onSelPers}>
-            <View className='picker'>
-              {this.state.selectPersChecked}
-            </View>
-          </Picker>
-          <Text className='at-col  at-col__offset-1 at-col-2'>时长:</Text>
-          <Picker className='at-col at-col-4' mode='selector' range={this.state.selectLimit} onChange={this.onSelLimit}>
-            <View className='picker'>
-              {this.state.selectLimitChecked}
-            </View>
-          </Picker>
-        </View>
-        <View className='at-row'>
-          <Text className='at-col  at-col__offset-1 at-col-2'>开始：</Text>
-          <Picker className='at-col  at-col-2' mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectStart} onChange={this.onDateChange.bind(this, 'start')}>
-            <View className='picker'>
-              {this.state.selectStart}
-            </View>
-          </Picker>
-          <Text className='at-col  at-col__offset-1 at-col-2'>截止：</Text>
-          <Picker className='at-col  at-col-4' mode='date' minDate={getFormatDate(DateAdd(new Date(), 'd', 1))} value={this.state.selectEnd} onChange={this.onDateChange.bind(this, 'end')}>
-            <View className='picker'>
-              {this.state.selectEnd}
-            </View>
-          </Picker>
-        </View> */}
-        <Button onClick={this.onSearch}>查询</Button>
+       
+        <AtButton  type='primary' onClick={this.onSearch}>桌位查询</AtButton>
        
         <Text>暗光区</Text>
         <View className='defaultView' style={{backgroundColor:'#cccccc'}}> 
@@ -342,4 +315,3 @@ export default class Order extends Component {
     )
   }
 }
-
