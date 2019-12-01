@@ -62,13 +62,22 @@ export default class OrderConfirm extends Component {
 }
   render() {
 
-    let {desk,start,end } = this.$router.params
+    let {persons,desk,start,end } = this.$router.params
     return (
       <View className='defaultView'>
 
         <View className='at-row at-row__align--center' style='height:150rpx'>
-          <View className='at-col at-col-4'>桌号</View>
-          <View className='at-col at-col-8'>
+          <View className='at-col at-col-2'>人数</View>
+          <View className='at-col at-col-4'>
+            <Text>{persons}</Text>
+          {/*   <Picker mode='selector' range={selector} onChange={this.onChange} >
+              <View className='picker' style='text-align:right'>
+                {selectorChecked}<AtIcon value='chevron-down' size='20' color='#000' />
+              </View>
+            </Picker> */}
+          </View>
+          <View className='at-col at-col-2'>桌号</View>
+          <View className='at-col at-col-4'>
             <Text>{desk}</Text>
           {/*   <Picker mode='selector' range={selector} onChange={this.onChange} >
               <View className='picker' style='text-align:right'>
@@ -78,22 +87,15 @@ export default class OrderConfirm extends Component {
           </View>
         </View>
         <View className='at-row' style='height:100rpx' /* onClick={this.handleDateClick.bind(this)} */>
-          <View className='at-col at-col-3'>预定日期(300天）</View>
+          <View className='at-col at-col-3'>预定日期</View>
           <View className='at-col at-col-9' style='text-align:right' >
-            {getFormatDate(new Date(start))} 至 {getFormatDate(new Date(end))}
+            {start} 至 {end}
             <AtIcon value='chevron-down' size='20' color='#000' />
           </View>
         </View>
-        <View hidden={!this.state.showPickDate}>
-          <AtCalendar isMultiSelect currentDate={{
-            start, end
-          }} /* minDate={minDate} maxDate={maxDate} */ /* onSelectDate={this.handleDateSelect.bind(this)} */
+        
 
-          />
-
-        </View>
-
-        <Button type='primary' style='margin:50rpx' onClick={this.handleSubmit} > 提交</Button>
+        <Button type='primary' style='margin:50rpx' onClick={this.handleSubmit} > 确认</Button>
       </View>
     )
   }
