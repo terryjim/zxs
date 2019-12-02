@@ -14,10 +14,6 @@ import DayArea from '../../components/dayArea'
 import CurtainArea from '../../components/curtainArea'
 import Vip1Area from '../../components/vip1Area'
 import Vip2Area from '../../components/vip2Area'
-/*@connect(({ my,loading }) => ({
-  ...my,...loading,
-}))*/
-
 export default class Order extends Component {
   constructor(props) {
     super(props);

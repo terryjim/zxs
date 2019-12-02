@@ -18,7 +18,6 @@ const Vip1Area = (props) => {
                             value: props.occupied && props.occupied.includes('V2') ? 'subtract-circle' : 'calendar'
                         },
                         value: 'V2'
-
                     }]}
                 />
             </View>

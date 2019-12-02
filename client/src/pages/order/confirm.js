@@ -92,8 +92,7 @@ export default class OrderConfirm extends Component {
             {start} 至 {end}
             <AtIcon value='chevron-down' size='20' color='#000' />
           </View>
-        </View>
-        
+        </View>        
 
         <Button type='primary' style='margin:50rpx' onClick={this.handleSubmit} > 确认</Button>
       </View>

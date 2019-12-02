@@ -1,6 +1,7 @@
 
 import { View } from '@tarojs/components'
 import { AtGrid } from 'taro-ui'
+
 //VIP双人间
 const Vip2Area = (props) => {
     return (

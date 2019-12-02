@@ -19,7 +19,6 @@ const DayArea = (props) => {
                                 value: props.occupied && props.occupied.includes('B' + (index + 1)) ? 'subtract-circle' : 'calendar'
                             },
                             value: 'B' + (index + 1)
-
                         })
                     )
                 }

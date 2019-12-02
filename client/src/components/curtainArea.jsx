@@ -18,7 +18,6 @@ export  const CurtainArea = (props) => {
                                 value: props.occupied && props.occupied.includes('C' + (index + 1)) ? 'subtract-circle' : 'calendar'
                             },
                             value: 'C' + (index + 1)
-
                         })
                     )
                 }

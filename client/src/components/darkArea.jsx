@@ -17,7 +17,6 @@ export const DarkArea = (props) => {
                                 value: props.occupied && props.occupied.includes('A' + (index + 1)) ? 'subtract-circle' : 'calendar'
                             },
                             value: 'A' + (index + 1)
-
                         })
                     )
                 }
