@@ -115,6 +115,7 @@ export default class My extends Component {
     let {openMyToast,myToastText,mybonusList}=this.props
     return (
       <View>
+        <open-data type="userAvatarUrl"></open-data>
         <AtToast isOpened={openMyToast} text={myToastText}></AtToast>
        {/* <View className='portrait'>
           <View className='at-row at-row__align--center'>
