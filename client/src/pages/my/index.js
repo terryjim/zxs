@@ -115,8 +115,11 @@ export default class My extends Component {
     let {openMyToast,myToastText,mybonusList}=this.props
     return (
       <View>
-        <open-data type="userAvatarUrl"></open-data>
-        <AtToast isOpened={openMyToast} text={myToastText}></AtToast>
+        {/*<View style={{height:'50px',width:'50px'}}>
+        <open-data type="userAvatarUrl" style={{height:'50px',width:'50px'}}></open-data>
+        <open-data type="userNickName"></open-data>
+        </View>*/}
+       {/* <AtToast isOpened={openMyToast} text={myToastText}></AtToast>*/}
        {/* <View className='portrait'>
           <View className='at-row at-row__align--center'>
             <View className='at-col at-col-2' >
@@ -127,18 +130,18 @@ export default class My extends Component {
             </View>
           </View>
         </View>*/}
-        <View className='defaultView'>
+      {/*  <View className='defaultView'>
           <View className='at-row at-row__align--center'>
             <View className='at-col at-col-8' onClick={this.redirect.bind(this,"/pages/integral/index")}>
               <View className='integralValue'>{mybonusList.totalbonus}</View>
               <View className='integralName'>积分值</View>
             </View>
             <View className='at-col at-col-4' >
-              {/* <View className='conversion' onClick={this.showInfo.bind(this,"兑换物品")}>兑换物品</View> */}
+               <View className='conversion' onClick={this.showInfo.bind(this,"兑换物品")}>兑换物品</View> 
             </View>
           </View>
         </View>
-        111
+        111*/}
         <View className='qrBg' >
                     <Canvas className='qrCanvas' canvasId='canvas' >
                     </Canvas>
