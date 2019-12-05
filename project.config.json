@@ -2,8 +2,8 @@
 	"miniprogramRoot": "client/dist/",
 	"cloudfunctionRoot": "cloud/functions/",
 	"projectname": "zxs",
-	"description": "自习室",
-	"appid": "wx0d696c97d3d67d00",
+	"description": "知无涯自习室",
+	"appid": "wx8f77fa93cb141527",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,

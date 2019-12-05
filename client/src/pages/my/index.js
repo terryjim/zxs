@@ -97,7 +97,7 @@ export default class My extends Component {
         //image: '/images/bg.jpg',
         width: qrcodeWidth,
         height: qrcodeWidth,
-        colorDark: "#000",
+        colorDark: "#1CA4FC",
         colorLight: "white",
         correctLevel: QRCode.CorrectLevel.H,
     });
@@ -114,11 +114,11 @@ export default class My extends Component {
     
     let {openMyToast,myToastText,mybonusList}=this.props
     return (
-      <View>
-        {/*<View style={{height:'50px',width:'50px'}}>
+      <View className='defaultView'>
+        <View style={{height:'50px',width:'50px'}}>
         <open-data type="userAvatarUrl" style={{height:'50px',width:'50px'}}></open-data>
         <open-data type="userNickName"></open-data>
-        </View>*/}
+        </View>
        {/* <AtToast isOpened={openMyToast} text={myToastText}></AtToast>*/}
        {/* <View className='portrait'>
           <View className='at-row at-row__align--center'>
@@ -142,10 +142,10 @@ export default class My extends Component {
           </View>
         </View>
         111*/}
-        <View className='qrBg' >
+        <View className='qrBg' style={{textAlign:'center'}}>
                     <Canvas className='qrCanvas' canvasId='canvas' >
                     </Canvas>
-                </View>222
+                </View>
           <View className='defaultView'>
           上课中，9：00－ 持续4小时3分
         </View>
