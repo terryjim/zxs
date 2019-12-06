@@ -47,19 +47,19 @@ export default class My extends Component {
     switch (number) {
       case 0:
         this.charge();
-       // this.redirect("/pages/order/confirm");
         break;
       case 1:
         this.redirect("/pages/company/index");
         break;
       case 2:
-        this.redirect("/pages/index/index");
+        this.redirect("/pages/activity/index");
         //this.showInfo("优惠券")
         break;
       case 3:
-        this.redirect("/pages/my/appointment");
+        this.showInfo("我的车辆")
         break;
     }
+
   }
   charge = () => {
     Taro.cloud
@@ -90,22 +90,7 @@ export default class My extends Component {
       } */
     //let qqq=Taro.createCanvasContext('canvas', this.$scope)
 
-    let qrcode = new QRCode('canvas', {
-      usingIn: this.$scope,
-      // text: "https://github.com/tomfriwel/weapp-qrcode",
-      text: createQrCode('userInfo.openid'),
-      //image: '/images/bg.jpg',
-      width: qrcodeWidth,
-      height: qrcodeWidth,
-      colorDark: "#1CA4FC",
-      colorLight: "white",
-      correctLevel: QRCode.CorrectLevel.H,
-    });
-
-    this.timerID = setInterval(
-      () => qrcode.makeCode(createQrCode('userInfo.openid')),
-      3000
-    )
+   
   }
   componentWillUnmount() {
     clearInterval(this.timerID)
@@ -146,54 +131,12 @@ export default class My extends Component {
         </View>
         111*/}
 
-        <View className='at-row  at-row__justify--center' style={{marginTop:'20px'}}>
-          <View className='at-col at-col-6'>
-            <Canvas className='at-col ' canvasId='canvas' >
-            </Canvas>
-          </View>
-        </View>
-        <View className='at-row at-row__justify--center' style={{marginTop:'20px'}}>
-          <View className='at-col at-col-6'>进入自习室时请扫描此码</View>
-        </View>
-
-        <View className='defaultView'>
-          <AtGrid hasBorder={false} onClick={this.onGridClick} columnNum={3} data={
-            [
-              {
-                image: room,
-                value: '快速充值'
-              },
-              {
-                image: company,
-                value: '充值记录'
-              },
-              {
-                image: discount,
-                value: '上课记录'
-              },
-              {
-                image: car,
-                value: '我的预约'
-              },
-             {/* {
-                image: car,
-                value: '推广'
-              }*/}
-            ]
-          }
-
-          />
-        </View>
-       {/* <View className='defaultView'>
-          <AtList hasBorder={false}>
-            <AtListItem title='姓名' arrow='right' onClick={this.showInfo.bind(this, "我的订单")} />
-            <AtListItem title='手机' arrow='right' onClick={this.gotoFace.bind(this)} />
-            
-            <AtListItem title='意见反馈' arrow='right' onClick={this.redirect.bind(this, "/pages/opinionFeedback/index")} />
-            <AtListItem title='关于我们' arrow='right' onClick={this.redirect.bind(this, "/pages/about/index")} />
-
-          </AtList>
-        </View>*/}
+        <AtList>
+  <AtListItem title='标题文字' note='描述信息' arrow='right' iconInfo={{ size:
+  25, color: '#78A4FA', value: 'calendar', }} /> <AtListItem title='标题文字'
+  note='描述信息' extraText='详细信息' arrow='right' iconInfo={{ size: 25,
+  color: '#FF4949', value: 'bookmark', }} />
+</AtList>
       </View>
     )
   }

@@ -55,9 +55,15 @@ export default class OrderConfirm extends Component {
       })
       .then(res => {
         console.log(res.result)
-        this.setState({
+       /* this.setState({
           context: res.result
-        })
+        })*/
+        Taro.showToast({
+  title: '您已预定成功！',
+  icon: 'success',
+  duration: 1000
+})
+  .then(res => console.log(res))
       })
 }
   render() {
