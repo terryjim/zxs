@@ -6,16 +6,37 @@ const tb = db.collection('appointment')
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   try {
-
-    await tb.add({
-      data: {
-        openid: OPENID,
-        ...event,
-        created:db.serverDate(),
+    switch (event.action) {
+      case 'add': {
+        return await tb.add({
+          data: {
+            openid: event.userInfo.openId,
+            ...event.payload,
+            created: db.serverDate(),
+          }
+        })
       }
-    })
-    return '预约成功！'
+      case 'query': {
+        let limit = event.num || 100;
+        if (event.needOpenid)
+          return await tb.where({ openid: event.userInfo.openId, ...event.map }).limit(limit).get();
+        else
+          return await tb.where(event.map).limit(limit).get();
+      }
+      default: {
+        return '方法不存在'
+      }
+    }
   } catch (e) {
-    return '预约失败:' + JSON.stringify(e)
+    return e
   }
 }
+   /*  await tb.add({
+data: {
+openid: OPENID,
+...event,
+created:db.serverDate(),
+}
+})
+return '预约成功！' */
+

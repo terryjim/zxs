@@ -8,7 +8,7 @@ import discount from '../../assets/images/discount.png'
 import company from '../../assets/images/company.png'
 import car from '../../assets/images/car.png'
 import { apiUrl } from '../../config';
-import { getFormatDate, DateAdd,strToDate } from '../../utils/date'
+import { getFormatDate, DateAdd, strToDate } from '../../utils/date'
 /*@connect(({ my,loading }) => ({
   ...my,...loading,
 }))*/
@@ -22,8 +22,8 @@ export default class OrderConfirm extends Component {
       selectPersChecked: '单人',
       selectLimit: ['单日', '单周', '单月', '单季', '自选'],
       selectLimitChecked: '单日',
-      selectStart: getFormatDate(DateAdd( new Date(),'d', 1)),
-      selectEnd: getFormatDate(DateAdd(new Date(),'d', 1)),
+      selectStart: getFormatDate(DateAdd(new Date(), 'd', 1)),
+      selectEnd: getFormatDate(DateAdd(new Date(), 'd', 1)),
       //被战胜座位
       occupied: []
     }
@@ -42,33 +42,29 @@ export default class OrderConfirm extends Component {
      })
      this.props.dispatch({ type: 'my/mybonus'})*/
   }
-  
+
   componentDid() {
-    this.setState({selectStart:this.$router.params.start,selectEnd:this.$router.params.end,desk:this.$router.params.desk})
+    this.setState({ selectStart: this.$router.params.start, selectEnd: this.$router.params.end, desk: this.$router.params.desk })
     console.log(this.$router.params)
   }
-  handleSubmit=()=>{
-  Taro.cloud
+  handleSubmit = () => {
+    Taro.cloud
       .callFunction({
         name: "appointment",
-        data: {start:this.state.selectStart,end:this.state.selectEnd,desk:this.state.desk}
+        data: { action: 'add', payload: { start: this.state.selectStart, end: this.state.selectEnd, desk: this.state.desk } }
       })
       .then(res => {
-        console.log(res.result)
-       /* this.setState({
-          context: res.result
-        })*/
         Taro.showToast({
-  title: '您已预定成功！',
-  icon: 'success',
-  duration: 1000
-})
-  .then(res => console.log(res))
+          title: '您已预定成功！',
+          icon: 'success',
+          duration: 1000
+        })
+          /* .then(res => console.log(res)) */
       })
-}
+  }
   render() {
 
-    let {persons,desk,start,end } = this.$router.params
+    let { persons, desk, start, end } = this.$router.params
     return (
       <View className='defaultView'>
 
@@ -76,7 +72,7 @@ export default class OrderConfirm extends Component {
           <View className='at-col at-col-2'>人数</View>
           <View className='at-col at-col-4'>
             <Text>{persons}</Text>
-          {/*   <Picker mode='selector' range={selector} onChange={this.onChange} >
+            {/*   <Picker mode='selector' range={selector} onChange={this.onChange} >
               <View className='picker' style='text-align:right'>
                 {selectorChecked}<AtIcon value='chevron-down' size='20' color='#000' />
               </View>
@@ -85,7 +81,7 @@ export default class OrderConfirm extends Component {
           <View className='at-col at-col-2'>桌号</View>
           <View className='at-col at-col-4'>
             <Text>{desk}</Text>
-          {/*   <Picker mode='selector' range={selector} onChange={this.onChange} >
+            {/*   <Picker mode='selector' range={selector} onChange={this.onChange} >
               <View className='picker' style='text-align:right'>
                 {selectorChecked}<AtIcon value='chevron-down' size='20' color='#000' />
               </View>
@@ -98,7 +94,7 @@ export default class OrderConfirm extends Component {
             {start} 至 {end}
             <AtIcon value='chevron-down' size='20' color='#000' />
           </View>
-        </View>        
+        </View>
 
         <Button type='primary' style='margin:50rpx' onClick={this.handleSubmit} > 确认</Button>
       </View>

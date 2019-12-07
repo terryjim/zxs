@@ -23,81 +23,48 @@ export default class My extends Component {
     super(props);
     //let userInfo = Taro.getStorageSync("userInfo")
     this.state = {
-      nickname: '',
-      userImg: ''
+      appointmentList: []
     }
   }
   config = {
-    navigationBarTitleText: '我的',
+    navigationBarTitleText: '我的预约',
   }
-  redirect = (url) => Taro.navigateTo({
-    url: url
-  })
+  /*   redirect = (url) => Taro.navigateTo({
+      url: url
+    })
+  
+    gotoFace = () => Taro.navigateTo({
+      url: '/pages/face/index'
+    })
+    showInfo = (title) => {
+      Taro.showToast({
+        title: title + "正在上架，敬请期待！",
+        icon: 'none',
+      });
+    } */
 
-  gotoFace = () => Taro.navigateTo({
-    url: '/pages/face/index'
-  })
-  showInfo = (title) => {
-    Taro.showToast({
-      title: title + "正在上架，敬请期待！",
-      icon: 'none',
-    });
-  }
-  onGridClick = (item, number) => {
-    switch (number) {
-      case 0:
-        this.charge();
-        break;
-      case 1:
-        this.redirect("/pages/company/index");
-        break;
-      case 2:
-        this.redirect("/pages/activity/index");
-        //this.showInfo("优惠券")
-        break;
-      case 3:
-        this.showInfo("我的车辆")
-        break;
-    }
 
-  }
-  charge = () => {
+  componentDidMount() {
+
     Taro.cloud
       .callFunction({
-        name: "charge",
-        data: { amount: 1000, added: 3000 }
+        name: "appointment",
+        data: { action: 'query', needOpenid: true }
       })
       .then(res => {
-        console.log(res.result)
-        this.setState({
-          context: res.result
-        })
+        console.log('888888888888888888888888888')
+        console.log(res.result.data)
+        this.setState({ appointmentList: res.result.data })
+        /* .then(res => console.log(res)) */
       })
   }
-  componentDidMount() {
-    /* let userInfo = Taro.getStorageSync('userInfo')
-     if(!userInfo || !userInfo.access_token){
-         Taro.navigateTo({url:"/pages/register/index"})
-     }
-     this.setState({
-       nickname:userInfo.nickname,
-       userImg:apiUrl.userImg+'?size=middle&openid='+userInfo.openid
-     })
-     this.props.dispatch({ type: 'my/mybonus'})*/
-    /*   let userInfo = Taro.getStorageSync('userInfo')
-      if(!userInfo || !userInfo.access_token){
-          Taro.navigateTo({url:"/pages/register/index"})
-      } */
-    //let qqq=Taro.createCanvasContext('canvas', this.$scope)
-
-   
-  }
   componentWillUnmount() {
-    clearInterval(this.timerID)
+    // clearInterval(this.timerID)
   }
   render() {
+    let { appointmentList } = this.state
 
-    let { openMyToast, myToastText, mybonusList } = this.props
+    //let { openMyToast, myToastText, mybonusList } = this.props
     return (
       <View className='defaultView'>
         <View className='at-row at-row__align--end' >
@@ -107,36 +74,46 @@ export default class My extends Component {
           <View className='at-col at-col-9'>
             <open-data type="userNickName"></open-data></View>
         </View>
-        {/* <AtToast isOpened={openMyToast} text={myToastText}></AtToast>*/}
-        {/* <View className='portrait'>
-          <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-2' >
-              <Image className='MyPng' src={this.state.userImg} />
-            </View>
-            <View className='at-col at-col-10' >
-              <View className='name'>{this.state.nickname}</View>
-            </View>
-          </View>
-        </View>*/}
-        {/*  <View className='defaultView'>
-          <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-8' onClick={this.redirect.bind(this,"/pages/integral/index")}>
-              <View className='integralValue'>{mybonusList.totalbonus}</View>
-              <View className='integralName'>积分值</View>
-            </View>
-            <View className='at-col at-col-4' >
-               <View className='conversion' onClick={this.showInfo.bind(this,"兑换物品")}>兑换物品</View> 
-            </View>
-          </View>
-        </View>
-        111*/}
 
+        <View>
+          预约中
+<AtList>
+            {appointmentList&&appointmentList.map(x =>(<AtListItem title={x.start}
+                note={'至' + x.end} extraText={'桌号：' + x.desk} arrow='right' iconInfo={{
+                  size:
+                    25, color: '#78A4FA', value: 'calendar',
+                }} />)
+            )}
+            {/*   <AtListItem title='2019-12-02'
+            note='至2019-12-02' extraText='桌号：A12' arrow='right' iconInfo={{
+            size:
+              25, color: '#78A4FA', value: 'calendar',
+          }} /> 
+            <AtListItem title='2019-12-02'
+            note='至2019-12-02' extraText='桌号：A12' arrow='right' iconInfo={{
+            size:
+              25, color: '#78A4FA', value: 'calendar',
+          }} /> 
+            <AtListItem title='2019-12-02'
+            note='至2019-12-02' extraText='桌号：A12' arrow='right' iconInfo={{
+            size:
+              25, color: '#78A4FA', value: 'calendar',
+          }} />  */}
+          </AtList>
+
+        </View>
+        <View>
+          历史预约
         <AtList>
-  <AtListItem title='标题文字' note='描述信息' arrow='right' iconInfo={{ size:
-  25, color: '#78A4FA', value: 'calendar', }} /> <AtListItem title='标题文字'
-  note='描述信息' extraText='详细信息' arrow='right' iconInfo={{ size: 25,
-  color: '#FF4949', value: 'bookmark', }} />
-</AtList>
+        {appointmentList&&appointmentList.map(x =>(<AtListItem title={x.start}
+                note={'至' + x.end} extraText={'桌号：' + x.desk}  iconInfo={{
+                  size:
+                    25,  color: '#FF4949', value: 'bookmark',
+                }} />)
+            )}
+           
+          </AtList>
+        </View>
       </View>
     )
   }
