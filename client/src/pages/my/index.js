@@ -45,20 +45,25 @@ export default class My extends Component {
   }
   onGridClick = (item, number) => {
     switch (number) {
-      case 0:
+     /* case 0:
         this.charge();
-       // this.redirect("/pages/order/confirm");
+       
         break;
       case 1:
         this.redirect("/pages/company/index");
         break;
       case 2:
         this.redirect("/pages/index/index");
-        //this.showInfo("优惠券")
-        break;
-      case 3:
+      
+        break;*/
+      case 2:
         this.redirect("/pages/my/appointment");
         break;
+      default:
+        Taro.showToast({
+          title: "等待小程序发布后才能申请商户号，没有商户号无法支付，到底我要怎么做啊",
+          icon: 'none',
+        });
     }
   }
   charge = () => {
@@ -146,13 +151,13 @@ export default class My extends Component {
         </View>
         111*/}
 
-        <View className='at-row  at-row__justify--center' style={{marginTop:'20px'}}>
+        <View className='at-row  at-row__justify--center' style={{ marginTop: '20px' }}>
           <View className='at-col at-col-6'>
             <Canvas className='at-col ' canvasId='canvas' >
             </Canvas>
           </View>
         </View>
-        <View className='at-row at-row__justify--center' style={{marginTop:'20px'}}>
+        <View className='at-row at-row__justify--center' style={{ marginTop: '20px' }}>
           <View className='at-col at-col-6'>进入自习室时请扫描此码</View>
         </View>
 
@@ -161,21 +166,21 @@ export default class My extends Component {
             [
               {
                 image: room,
-                value: '快速充值'
+                value: '快速购课'
               },
               {
                 image: company,
-                value: '充值记录'
+                value: '购课记录'
               },
-              {
+            /* { 
                 image: discount,
                 value: '上课记录'
-              },
+              },*/
               {
                 image: car,
                 value: '我的预约'
               },
-             {/* {
+              {/* {
                 image: car,
                 value: '推广'
               }*/}
@@ -184,7 +189,7 @@ export default class My extends Component {
 
           />
         </View>
-       {/* <View className='defaultView'>
+        {/* <View className='defaultView'>
           <AtList hasBorder={false}>
             <AtListItem title='姓名' arrow='right' onClick={this.showInfo.bind(this, "我的订单")} />
             <AtListItem title='手机' arrow='right' onClick={this.gotoFace.bind(this)} />
