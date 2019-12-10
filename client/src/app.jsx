@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import Index from './pages/index'
 import 'taro-ui/dist/style/index.scss'
+import '@tarojs/async-await'
 /*
 import './app.scss'*/
 import './styles/base.scss'
@@ -14,8 +15,8 @@ class App extends Component {
 
   config = {
     pages: [
-       'pages/my/index','pages/order/index', 'pages/index/index',
-     'pages/order/confirm', 'pages/my/appointment'
+      'pages/index/index', 'pages/my/index', 'pages/order/index',
+      'pages/order/confirm', 'pages/my/appointment'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -69,6 +70,9 @@ class App extends Component {
         },
       ]
 
+    },
+    permission: {
+      'scope.userLocation': { desc: '请点击确定' }
     },
     cloud: true
   }

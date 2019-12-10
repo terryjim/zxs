@@ -2,7 +2,7 @@ const cloud = require('wx-server-sdk')
 
 cloud.init()
 const db = cloud.database();
-const tb = db.collection('appointment')
+const tb = db.collection('banners')
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   try {
@@ -10,7 +10,7 @@ exports.main = async (event) => {
       case 'add': {
         return await tb.add({
           data: {
-            openid: event.userInfo.openId,
+            //openid: event.userInfo.openId,
             ...event.payload,
             created: db.serverDate(),
           }
@@ -18,14 +18,10 @@ exports.main = async (event) => {
       }
       case 'query': {
         let limit = event.num || 100;
-        if (event.needOpenid)
-          return await tb.where({ openid: event.userInfo.openId, ...event.map }).limit(limit).get();
-        else {
-          if (event.map)
-            return await tb.where(event.map).limit(limit).get();
-          else
-            return await tb.limit(limit).get();
-        }
+        if (event.map)
+          return await tb.where(event.map).limit(limit).get();
+        else
+          return await tb.limit(limit).get();
       }
       default: {
         return '方法不存在'
