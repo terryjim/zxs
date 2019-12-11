@@ -12,7 +12,6 @@ import './styles/base.scss'
 // }
 
 class App extends Component {
-
   config = {
     pages: [
       'pages/index/index', 'pages/my/index', 'pages/order/index',
@@ -20,7 +19,7 @@ class App extends Component {
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#000000',
+      navigationBarBackgroundColor: '#fa8c16',
       navigationBarTitleText: '知无涯自习室',
       navigationBarTextStyle: 'white'
     },

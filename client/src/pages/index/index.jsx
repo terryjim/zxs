@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, ScrollView, Image, Text, Swiper, SwiperItem, Map } from '@tarojs/components'
-import { AtGrid, AtIcon } from 'taro-ui'
+import { View, ScrollView, Image, Text, Swiper, SwiperItem, Map, Button } from '@tarojs/components'
+import { AtGrid, AtIcon, AtButton } from 'taro-ui'
 import './index.scss'
 
 import Login from '../../components/login/index'
@@ -53,20 +53,20 @@ export default class Index extends Component {
 
   }
   onCall = () => {
-     Taro.makePhoneCall({ phoneNumber: '18971685188' })
+    Taro.makePhoneCall({ phoneNumber: '18971685188' })
   }
-  getGift = () => {   
-      Taro.showToast({
-          title: '领取成功，您可在预约中预定桌位或直接前往现场使用！',
-          icon: 'success',
-          duration: 2000
-        })
-   
+  getGift = () => {
+    Taro.showToast({
+      title: '领取成功，您可在预约中预定桌位或直接前往现场使用！',
+      icon: 'success',
+      duration: 2000
+    })
+
   }
   render() {
     const { banners } = this.state
     return (
-      <View className='defaultView'>
+      <View className='mainView'>
         {/* <Login/>*/}
         <Swiper
           className='defaultView swiper'
@@ -76,7 +76,7 @@ export default class Index extends Component {
           circular
           indicatorDots
           autoplay
-          style='height:180px'
+          style='height:150px'
         >
           {
             !banners ? '' : banners.map(b => {
@@ -84,7 +84,7 @@ export default class Index extends Component {
                 <View>
 
                   <SwiperItem key={b.id}>
-                    <Image style='width: 350px;height: 180px;background: #fff;' src={'cloud://zxs5188.7a78-zxs5188-1300852908/' + b.img} onClick={this.showWebView.bind(this, b.Url)} />
+                    <Image mode='scaleToFill' style='height: 150px;background: #fff;' src={'cloud://zxs5188.7a78-zxs5188-1300852908/' + b.img} onClick={this.showWebView.bind(this, b.Url)} />
                   </SwiperItem>
                 </View>)
             })
@@ -92,28 +92,31 @@ export default class Index extends Component {
         </Swiper>
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
-        {/* <View  onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center' style={{ height: '40px', marginTop: '30px' }}>
-          <View  className='at-col  at-col-3 at-col--wrap'style={{paddingLeft:'20px'}}> 新人加入迎好礼</View>
-          <View className='at-col  at-col-6 at-col--wrap' style={{marginLeft:'10px',marginRight:'10px'}}>
-            立即领取3日免费学习卡 ；
-            立享免费自助咖啡茶水+千兆WIFI
-            </View>
-          <View className='at-col  at-col-3' style={{color:'red'}}>
-            立即领取</View>
-        </View>*/}
-      <View style={{marginTop: '50px' ,marginLeft:'20px'}}>
-        地址：</View>
-        <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '40px', marginTop: '10px' }}>
-          <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' /></View>
-          <View onClick={this.onTap} className='at-col  at-col-8 at-col--wrap'>
-            武汉市洪山区鲁磨路国光大厦B座1401室
+        <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
+          <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight:'20px', color: '#fff', textAlign: 'center',background: '#fa8c16' }}>
+            <View style={{marginTop:'5px'}}>
+              <Text>新人</Text></View>
+            <View >
+              <Text>好礼</Text></View>
+          </View>
+          <View className='at-col  at-col-6 ' >
+            <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>三日自习课时免费送</Text>
+          </View>
+          <View className='at-col  at-col-4' >
+            <Button style={{ backgroundColor: '#fa8c16', color: '#ffffff' }} circle={true} size='mini'>立即领取</Button>
+          </View>
+        </View>
+        {/* <View style={{ marginTop: '10px', marginLeft: '10px' }}>
+          自习室地址：</View>*/}
+        <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
+          <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#fa8c16' /></View>
+          <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
+            武汉市洪山区鲁磨路243号国光大厦B座1401室
             </View>
           <View className='at-col  at-col-2' >
-            <AtIcon value='phone' size='40' color='#ffa940' onClick={this.onCall} /></View>
+            <AtIcon value='phone' size='30' color='#fa8c16' onClick={this.onCall} /></View>
         </View>
-      
-
-        {/* <Map   latitude={30.512130}    longitude={114.399730}  markers={[{latitude:30.512130,longitude:114.399730}]} onClick={this.onTap} />*/}
+        <Map style={{ marginTop: '5px', height: '180px', width: '750px' }} latitude={30.512130} longitude={114.399730} markers={[{ latitude: 30.512130, longitude: 114.399730 }]} onClick={this.onTap} />
       </View>
     )
   }
