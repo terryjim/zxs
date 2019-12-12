@@ -56,11 +56,24 @@ export default class Index extends Component {
     Taro.makePhoneCall({ phoneNumber: '18971685188' })
   }
   getGift = () => {
-    Taro.showToast({
-      title: '领取成功，您可在预约中预定桌位或直接前往现场使用！',
-      icon: 'success',
+    
+    Taro.cloud
+      .callFunction({
+        name: "register",
+       /* data: { action: 'query', needOpenid: true }*/
+      })
+      .then(res => {
+        console.log('888888888888888888888888888')
+        console.log(res)
+        
+       Taro.showToast({
+      title: '领取成功，您可立即预定桌位或直接前往现场使用！',
+      icon: 'none',
       duration: 2000
     })
+        /* .then(res => console.log(res)) */
+      })
+  
 
   }
   render() {
