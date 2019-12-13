@@ -56,24 +56,42 @@ export default class Index extends Component {
     Taro.makePhoneCall({ phoneNumber: '18971685188' })
   }
   getGift = () => {
-    
+
     Taro.cloud
       .callFunction({
         name: "register",
-       /* data: { action: 'query', needOpenid: true }*/
+        /* data: { action: 'query', needOpenid: true }*/
       })
       .then(res => {
-        console.log('888888888888888888888888888')
-        console.log(res)
-        
-       Taro.showToast({
-      title: '领取成功，您可立即预定桌位或直接前往现场使用！',
-      icon: 'none',
-      duration: 2000
-    })
+       /* Taro.showToast({
+            title: JSON.stringify(res),
+            icon: 'none',
+            duration: 5000
+          })
+          console.log(res)
+     if(2>1)
+     return*/
+     console.log(res)
+        if (res.result.retCode && res.result.retCode !== 1)
+          Taro.showToast({
+            title: '您已领取过免费券，请直接使用！',
+            icon: 'none',
+            duration: 2000
+          })
+        else {
+          Taro.showToast({
+            title: '领取成功，您可立即预定桌位或直接前往现场使用！',
+            icon: 'none',
+            duration: 2000
+          })
+        }
         /* .then(res => console.log(res)) */
-      })
-  
+      }).catch(e=>
+      {
+        console.log('----------------------------------------')
+      console.log(e)
+    })
+
 
   }
   render() {
@@ -106,8 +124,8 @@ export default class Index extends Component {
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
-          <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight:'20px', color: '#fff', textAlign: 'center',background: '#fa8c16' }}>
-            <View style={{marginTop:'5px'}}>
+          <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#fa8c16' }}>
+            <View style={{ marginTop: '5px' }}>
               <Text>新人</Text></View>
             <View >
               <Text>好礼</Text></View>
