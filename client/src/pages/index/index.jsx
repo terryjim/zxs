@@ -139,36 +139,36 @@ export default class Index extends Component {
         快速购买
         <View className='defaultView at-row at-row--wrap' >
           <View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
-            <View style='margin: 5px;height: 75px;background:#389e0d;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+            <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
               <View ><Text>课时卡</Text></View>
               <View><Text>可自由转换为其它卡</Text></View>
               <View> <Text>大惊喜！存就送</Text></View>
             </View>
           </View>
           <View className='at-col  at-col-6 mainView' >
-            <View style='margin: 5px;height: 75px;background:#08979c;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+            <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
               <View><Text>单日四小时卡</Text></View>
               <View><Text>10 20元</Text></View>
             </View>
           </View>
           <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-            <View style='margin: 5px;height: 75px;background:#096dd9;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
-              <View ><Text>全日卡</Text></View>
+            <View style='margin: 5px;height: 90px;background:#096dd9;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+              <View ><Text>日卡</Text></View>
             </View>         
         </View>
         <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 75px;background:#1d39c4;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+          <View style='margin: 5px;height: 90px;background:#1d39c4;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
             <View ><Text>7日卡</Text></View>
           </View>
         </View>
         <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 75px;background:#531dab;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+          <View style='margin: 5px;height: 90px;background:#531dab;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
 
             <View ><Text>30日卡</Text></View>
           </View>
         </View>
         <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 75px;background:#c41d7f;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+          <View style='margin: 5px;height: 90px;background:#c41d7f;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
 
             <View ><Text>90日卡</Text></View>
           </View>
