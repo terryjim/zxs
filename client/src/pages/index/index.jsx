@@ -93,6 +93,65 @@ export default class Index extends Component {
 
 
   }
+   charge = () => {
+    Taro.cloud
+      .callFunction({
+        name: "pay",
+        data: { amount: 1000, added: 3000 }
+      })
+      .then(res => {
+        console.log(res)
+        this.setState({
+          context: res.result
+        })
+      })
+  }
+
+ //支付提交
+      paypost() {
+            let that = this;
+            Taro.showLoading({
+                  title: '正在下单',
+            });
+            // 利用云开发接口，调用云函数发起订单
+            Taro.cloud.callFunction({
+                  name: 'charge',
+                  data: {                      
+                        product_id: 0
+                  },
+                  success: res => {
+                        wx.hideLoading();
+                        that.pay(res.result)
+                  },
+                  fail(e) {
+                    console.log(e)
+                        Taro.hideLoading();
+                        Taro.showToast({
+                              title: '支付失败，请及时反馈或稍后再试',
+                              icon: 'none'
+                        })
+                  }
+            });
+      }
+      //实现小程序支付
+      pay(payData) {
+            let that = this;
+            //官方标准的支付方法
+            Taro.requestPayment({
+                  timeStamp: payData.timeStamp,
+                  nonceStr: payData.nonceStr,
+                  package: payData.package, //统一下单接口返回的 prepay_id 格式如：prepay_id=***
+                  signType: 'MD5',
+                  paySign: payData.paySign, //签名
+                  success(res) {
+                       // that.setStatus();   修改卖家订单状态
+                  },
+            })
+      }
+
+
+
+
   render() {
     const { banners } = this.state
     return (
@@ -139,7 +198,7 @@ export default class Index extends Component {
         快速购买
         <View className='defaultView at-row at-row--wrap' >
           <View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
-            <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+            <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={this.paypost.bind(this)}>
               <View ><Text>课时卡</Text></View>
               <View><Text>可自由转换为其它卡</Text></View>
               <View> <Text>大惊喜！存就送</Text></View>

@@ -14,16 +14,15 @@ const db = cloud.database();
 const chargeCollection = db.collection('charge')
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
-  let { goods_id } = event
+ // let { goods_id } = event
   const api = tenpay.init(config);
-
   let result = await api.getPayParams({
 
     out_trade_no: 'orderid',
 
     body: '商品简单描述',
 
-    total_fee: 0.01, //订单金额(分),
+    total_fee:1, //订单金额(分),
 
     openid: OPENID //付款用户的openid
 
