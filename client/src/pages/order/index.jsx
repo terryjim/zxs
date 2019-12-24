@@ -8,7 +8,7 @@ const basehref = 'cloud://zxs5188.7a78-zxs5188-1300852908/'
 export default class Index extends Component {
 
   config = {
-    navigationBarTitleText: '知无涯自习室'
+    navigationBarTitleText: '服务详情'
   }
   constructor(props) {
     super(props);
@@ -56,57 +56,7 @@ export default class Index extends Component {
   onCall = () => {
     Taro.makePhoneCall({ phoneNumber: '18971685188' })
   }
-  getGift = () => {
-
-    Taro.cloud
-      .callFunction({
-        name: "register",
-        /* data: { action: 'query', needOpenid: true }*/
-      })
-      .then(res => {
-        /* Taro.showToast({
-             title: JSON.stringify(res),
-             icon: 'none',
-             duration: 5000
-           })
-           console.log(res)
-      if(2>1)
-      return*/
-        console.log(res)
-        if (res.result.retCode && res.result.retCode !== 1)
-          Taro.showToast({
-            title: '您已领取过免费券，请直接使用！',
-            icon: 'none',
-            duration: 2000
-          })
-        else {
-          Taro.showToast({
-            title: '领取成功，您可立即预定桌位或直接前往现场使用！',
-            icon: 'none',
-            duration: 2000
-          })
-        }
-        /* .then(res => console.log(res)) */
-      }).catch(e => {
-        console.log('----------------------------------------')
-        console.log(e)
-      })
-
-
-  }
-   charge2 = () => {
-    Taro.cloud
-      .callFunction({
-        name: "pay",
-        data: { amount: 1000, added: 3000 }
-      })
-      .then(res => {
-        console.log(res)
-        this.setState({
-          context: res.result
-        })
-      })
-  }
+  
 
  //支付提交
       charge=(productId=0,quantity=1) =>{
