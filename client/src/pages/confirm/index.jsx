@@ -8,7 +8,7 @@ const basehref = 'cloud://zxs5188.7a78-zxs5188-1300852908/'
 export default class Index extends Component {
 
   config = {
-    navigationBarTitleText: '知无涯自习室'
+    navigationBarTitleText: '订单确认'
   }
   constructor(props) {
     super(props);

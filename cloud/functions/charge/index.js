@@ -11,18 +11,26 @@ const tenpay = require('tenpay')
 
 cloud.init()
 const db = cloud.database();
-const chargeCollection = db.collection('charge')
+const tb_charge = db.collection('charge')
+const tb_product=db.collection('product')
 exports.main = async (event) => {
+  console.log(event)
+  const {productId,quantity}=event
   const { OPENID } = cloud.getWXContext()
  // let { goods_id } = event
   const api = tenpay.init(config);
+  console.log('----------------------')
+let res=await tb_product.doc(productId).get()
+let product=res.data
+console.log(product)
+console.log(product.real_price*quantity)
   let result = await api.getPayParams({
 
-    out_trade_no: 'orderid',
+    out_trade_no: OPENID.slice(10)+'-'+ Date.now(),
 
-    body: '商品简单描述',
+    body: product.name,
 
-    total_fee:1, //订单金额(分),
+    total_fee:product.real_price*quantity, //订单金额(分),
 
     openid: OPENID //付款用户的openid
 
