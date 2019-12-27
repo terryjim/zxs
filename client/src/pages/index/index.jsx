@@ -15,8 +15,9 @@ export default class Index extends Component {
     //let userInfo = Taro.getStorageSync("userInfo")
     this.state = {
       banners: [],   //轮播图
+      products: []
     }
-  
+
   }
   componentWillMount() { }
 
@@ -28,6 +29,16 @@ export default class Index extends Component {
       })
       .then(res => {
         this.setState({ banners: res.result.data })
+      }).catch(e => {
+        console.log(e)
+        Taro.showToast(e)
+      })
+    Taro.cloud.callFunction({
+      name: "product",
+      data: { action: 'query' }
+    })
+      .then(res => {
+        this.setState({ products: res.result.data })
       }).catch(e => {
         console.log(e)
         Taro.showToast(e)
@@ -94,7 +105,7 @@ export default class Index extends Component {
 
 
   }
-   charge2 = () => {
+  charge2 = () => {
     Taro.cloud
       .callFunction({
         name: "pay",
@@ -108,54 +119,54 @@ export default class Index extends Component {
       })
   }
 
- //支付提交
-      charge=(productId=0,quantity=1) =>{
-           // let that = this;
-            Taro.showLoading({
-                  title: '正在下单',
-            });
-            // 利用云开发接口，调用云函数发起订单
-            Taro.cloud.callFunction({
-                  name: 'charge',
-                  data: {                      
-                        productId,
-                        quantity
-                  },
-                  success: res => {
-                        wx.hideLoading();
-                       this.pay(res.result)
-                  },
-                  fail(e) {
-                    console.log(e)
-                        Taro.hideLoading();
-                        Taro.showToast({
-                              title: '支付失败，请及时反馈或稍后再试',
-                              icon: 'none'
-                        })
-                  }
-            });
+  //支付提交
+  charge = (productId = 0, quantity = 1) => {
+    // let that = this;
+    Taro.showLoading({
+      title: '正在下单',
+    });
+    // 利用云开发接口，调用云函数发起订单
+    Taro.cloud.callFunction({
+      name: 'charge',
+      data: {
+        productId,
+        quantity
+      },
+      success: res => {
+        wx.hideLoading();
+        this.pay(res.result)
+      },
+      fail(e) {
+        console.log(e)
+        Taro.hideLoading();
+        Taro.showToast({
+          title: '支付失败，请及时反馈或稍后再试',
+          icon: 'none'
+        })
       }
-      //实现小程序支付
-      pay(payData) {
-           /* let that = this;*/
-            //官方标准的支付方法
-            Taro.requestPayment({
-                  timeStamp: payData.timeStamp,
-                  nonceStr: payData.nonceStr,
-                  package: payData.package, //统一下单接口返回的 prepay_id 格式如：prepay_id=***
-                  signType: 'MD5',
-                  paySign: payData.paySign, //签名
-                  success(res) {
-                       // that.setStatus();   修改卖家订单状态
-                  },
-            })
-      }
+    });
+  }
+  //实现小程序支付
+  pay(payData) {
+    /* let that = this;*/
+    //官方标准的支付方法
+    Taro.requestPayment({
+      timeStamp: payData.timeStamp,
+      nonceStr: payData.nonceStr,
+      package: payData.package, //统一下单接口返回的 prepay_id 格式如：prepay_id=***
+      signType: 'MD5',
+      paySign: payData.paySign, //签名
+      success(res) {
+        // that.setStatus();   修改卖家订单状态
+      },
+    })
+  }
 
 
 
 
   render() {
-    const { banners } = this.state
+    const { banners,products } = this.state
     return (
       <View className='mainView'>
         {/* <Login/>*/}
@@ -199,55 +210,68 @@ export default class Index extends Component {
         </View>
         快速购买
         <View className='defaultView at-row at-row--wrap' >
-          <View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
-            <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={()=>this.charge(0,1)}>
+         {products.map(p=>
+          (<View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
+           <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={() => 
+              Taro.navigateTo({
+    url: '/pages/order/index'
+  })}
+             >
+              <View ><Text>{p.name}</Text></View>
+              <View><Text>{p.info}</Text></View>
+              <View> <Text>{p.memo}</Text></View>
+            </View>
+          </View>
+          ))
+          }
+          {/*  <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={() => this.charge(0, 1)}>
               <View ><Text>课时卡</Text></View>
               <View><Text>可自由转换为其它卡</Text></View>
               <View> <Text>大惊喜！存就送</Text></View>
             </View>
           </View>
           <View className='at-col  at-col-6 mainView' >
-            <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={()=>this.charge(0,2)}>
+            <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={() => this.charge(0, 2)}>
               <View><Text>单日四小时卡</Text></View>
               <View><Text>10 20元</Text></View>
             </View>
           </View>
           <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-            <View style='margin: 5px;height: 90px;background:#096dd9;color:#fff' onClick={()=>this.charge(1,5)}>
+            <View style='margin: 5px;height: 90px;background:#096dd9;color:#fff' onClick={() => this.charge(1, 5)}>
               <View ><Text>日卡</Text></View>
-            </View>         
-        </View>
-        <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 90px;background:#1d39c4;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
-            <View ><Text>7日卡</Text></View>
-          </View>
-        </View>
-        <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 90px;background:#531dab;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
-
-            <View ><Text>30日卡</Text></View>
-          </View>
-        </View>
-        <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 90px;background:#c41d7f;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
-
-            <View ><Text>90日卡</Text></View>
-          </View>
-        </View>
-      </View>
-          {/* <View style={{ marginTop: '10px', marginLeft: '10px' }}>
-          自习室地址：</View>*/}
-    <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
-      <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#fa8c16' /></View>
-      <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
-        武汉市洪山区鲁磨路243号国光大厦B座1401室
             </View>
-      <View className='at-col  at-col-2' >
-        <AtIcon value='phone' size='30' color='#fa8c16' onClick={this.onCall} /></View>
-    </View>
-    {/*   <Map style={{ marginTop: '5px', height: '180px', width: '750px' }} latitude={30.512130} longitude={114.399730} markers={[{ latitude: 30.512130, longitude: 114.399730 }]} onClick={this.onTap} /> */ }
-        </View >
-        )
+          </View>
+          <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
+            <View style='margin: 5px;height: 90px;background:#1d39c4;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+              <View ><Text>7日卡</Text></View>
+            </View>
+          </View>
+          <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
+            <View style='margin: 5px;height: 90px;background:#531dab;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+
+              <View ><Text>30日卡</Text></View>
+            </View>
+          </View>
+          <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
+            <View style='margin: 5px;height: 90px;background:#c41d7f;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+
+              <View ><Text>90日卡</Text></View>
+            </View>
+          </View>*/}
+        </View>
+        {/* <View style={{ marginTop: '10px', marginLeft: '10px' }}>
+          自习室地址：</View>*/}
+        <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
+          <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#fa8c16' /></View>
+          <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
+            武汉市洪山区鲁磨路243号国光大厦B座1401室
+            </View>
+          <View className='at-col  at-col-2' >
+            <AtIcon value='phone' size='30' color='#fa8c16' onClick={this.onCall} /></View>
+        </View>
+        {/*   <Map style={{ marginTop: '5px', height: '180px', width: '750px' }} latitude={30.512130} longitude={114.399730} markers={[{ latitude: 30.512130, longitude: 114.399730 }]} onClick={this.onTap} /> */}
+      </View >
+    )
   }
 }
 

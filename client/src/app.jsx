@@ -14,8 +14,8 @@ import './styles/base.scss'
 class App extends Component {
   config = {
     pages: [
-      'pages/index/index', 'pages/my/index', 'pages/order/index',
-      'pages/order/confirm', 'pages/my/appointment'
+      'pages/index/index', 'pages/my/index', 'pages/appointment/index','pages/order/index',
+      'pages/appointment/confirm', 'pages/my/appointment'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -57,7 +57,7 @@ class App extends Component {
           iconPath: 'assets/images/21133514496txl2x.png',
           selectedIconPath: 'assets/images/21133514365txl_s2x.png'
         }, */ {
-          pagePath: 'pages/order/index',
+          pagePath: 'pages/appointment/index',
           text: '预约',
           iconPath: 'assets/images/21133514234yp2x.png',
           selectedIconPath: 'assets/images/21133514102yp_s2x.png'
