@@ -19,7 +19,7 @@ import { getFormatDate, DateAdd, strToDate } from '../../utils/date'
   ...my,...loading,
 }))*/
 
-export default class Appointment extends Component {
+export default class Cards extends Component {
   constructor(props) {
     super(props);
     //let userInfo = Taro.getStorageSync("userInfo")
@@ -28,7 +28,7 @@ export default class Appointment extends Component {
     }
   }
   config = {
-    navigationBarTitleText: '我的预约',
+    navigationBarTitleText: '我的卡片',
   }
   /*   redirect = (url) => Taro.navigateTo({
       url: url

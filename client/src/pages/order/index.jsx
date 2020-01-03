@@ -41,23 +41,7 @@ export default class Index extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-  onTap = () => {
-    Taro.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        wx.openLocation({//​使用微信内置地图查看位置。
-          latitude: 30.512130,//要去的纬度-地址
-          longitude: 114.399730,//要去的经度-地址
-          name: "知无涯自习室",
-          address: '鲁磨路国光大厦B座1401室'
-        })
-      }
-    })
-
-  }
-  onCall = () => {
-    Taro.makePhoneCall({ phoneNumber: '18971685188' })
-  }
+  
 
 
   //支付提交
@@ -112,6 +96,7 @@ export default class Index extends Component {
 
   render() {
     const { id, name, info, memo,realPrice,price } = this.$router.params
+    console.log(this.$router.params)
     const { banners } = this.state
     return (
       <View className='mainView'>
@@ -192,7 +177,7 @@ export default class Index extends Component {
 
         </View>
         总价：{realPrice*this.state.quantity/100}元
- <AtButton type='primary' size='small' onClick={()=>this.charge(''+id,this.state.quantity)}>支付</AtButton> 
+ <AtButton type='primary' size='small' onClick={()=>this.charge(id,this.state.quantity)}>支付</AtButton> 
       </View >
     )
   }

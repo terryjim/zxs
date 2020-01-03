@@ -56,7 +56,10 @@ export default class My extends Component {
         this.redirect("/pages/index/index");
       
         break;*/
-      case 2:
+        case 2:
+          this.redirect("/pages/my/cards");
+          break;
+        case 3:
         this.redirect("/pages/my/appointment");
         break;
       default:
@@ -66,19 +69,7 @@ export default class My extends Component {
         });
     }
   }
-  charge = () => {
-    Taro.cloud
-      .callFunction({
-        name: "charge",
-        data: { amount: 1000, added: 3000 }
-      })
-      .then(res => {
-        console.log(res.result)
-        this.setState({
-          context: res.result
-        })
-      })
-  }
+  
   componentDidMount() {
     /* let userInfo = Taro.getStorageSync('userInfo')
      if(!userInfo || !userInfo.access_token){
@@ -127,29 +118,7 @@ export default class My extends Component {
           <View className='at-col at-col-9'>
             <open-data type="userNickName"></open-data></View>
         </View>
-        {/* <AtToast isOpened={openMyToast} text={myToastText}></AtToast>*/}
-        {/* <View className='portrait'>
-          <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-2' >
-              <Image className='MyPng' src={this.state.userImg} />
-            </View>
-            <View className='at-col at-col-10' >
-              <View className='name'>{this.state.nickname}</View>
-            </View>
-          </View>
-        </View>*/}
-        {/*  <View className='defaultView'>
-          <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-8' onClick={this.redirect.bind(this,"/pages/integral/index")}>
-              <View className='integralValue'>{mybonusList.totalbonus}</View>
-              <View className='integralName'>积分值</View>
-            </View>
-            <View className='at-col at-col-4' >
-               <View className='conversion' onClick={this.showInfo.bind(this,"兑换物品")}>兑换物品</View> 
-            </View>
-          </View>
-        </View>
-        111*/}
+      
 
         <View className='at-row  at-row__justify--center' style={{ marginTop: '20px' }}>
           <View className='at-col at-col-6'>
@@ -171,6 +140,10 @@ export default class My extends Component {
               {
                 image: company,
                 value: '购课记录'
+              },
+              { 
+                image: discount,
+                value: '我的卡片'
               },
             /* { 
                 image: discount,
