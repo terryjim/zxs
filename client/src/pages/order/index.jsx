@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, ScrollView, Image, Text, Swiper, SwiperItem, Map, Button } from '@tarojs/components'
-import { AtGrid, AtIcon, AtButton, AtCard } from 'taro-ui'
+import { View, ScrollView, Image, Text, Swiper, SwiperItem, Map, Button, RichText } from '@tarojs/components'
+import { AtGrid, AtIcon, AtButton, AtCard,AtInputNumber  } from 'taro-ui'
 import './index.scss'
 
 import Login from '../../components/login/index'
@@ -15,8 +15,9 @@ export default class Index extends Component {
     //let userInfo = Taro.getStorageSync("userInfo")
     this.state = {
       banners: [],   //轮播图
+      quantity:1,//购买数量
     }
-  
+
   }
   componentWillMount() { }
 
@@ -32,6 +33,7 @@ export default class Index extends Component {
         console.log(e)
         Taro.showToast(e)
       })
+
   }
 
   componentWillUnmount() { }
@@ -56,55 +58,60 @@ export default class Index extends Component {
   onCall = () => {
     Taro.makePhoneCall({ phoneNumber: '18971685188' })
   }
-  
 
- //支付提交
-      charge=(productId=0,quantity=1) =>{
-           // let that = this;
-            Taro.showLoading({
-                  title: '正在下单',
-            });
-            // 利用云开发接口，调用云函数发起订单
-            Taro.cloud.callFunction({
-                  name: 'charge',
-                  data: {                      
-                        productId,
-                        quantity
-                  },
-                  success: res => {
-                        wx.hideLoading();
-                       this.pay(res.result)
-                  },
-                  fail(e) {
-                    console.log(e)
-                        Taro.hideLoading();
-                        Taro.showToast({
-                              title: '支付失败，请及时反馈或稍后再试',
-                              icon: 'none'
-                        })
-                  }
-            });
+
+  //支付提交
+  charge = (productId = '0', quantity = 1) => {
+    // let that = this;
+    Taro.showLoading({
+      title: '正在下单',
+    });
+    // 利用云开发接口，调用云函数发起订单
+    Taro.cloud.callFunction({
+      name: 'charge',
+      data: {
+        productId,
+        quantity
+      },
+      success: res => {
+        wx.hideLoading();
+        this.pay(res.result)
+      },
+      fail(e) {
+        console.log(e)
+        Taro.hideLoading();
+        Taro.showToast({
+          title: '支付失败，请及时反馈或稍后再试',
+          icon: 'none'
+        })
       }
-      //实现小程序支付
-      pay(payData) {
-           /* let that = this;*/
-            //官方标准的支付方法
-            Taro.requestPayment({
-                  timeStamp: payData.timeStamp,
-                  nonceStr: payData.nonceStr,
-                  package: payData.package, //统一下单接口返回的 prepay_id 格式如：prepay_id=***
-                  signType: 'MD5',
-                  paySign: payData.paySign, //签名
-                  success(res) {
-                       // that.setStatus();   修改卖家订单状态
-                  },
-            })
-      }
+    });
+  }
+  //实现小程序支付
+  pay(payData) {
+    /* let that = this;*/
+    //官方标准的支付方法
+    Taro.requestPayment({
+      timeStamp: payData.timeStamp,
+      nonceStr: payData.nonceStr,
+      package: payData.package, //统一下单接口返回的 prepay_id 格式如：prepay_id=***
+      signType: 'MD5',
+      paySign: payData.paySign, //签名
+      success(res) {
+        // that.setStatus();   修改卖家订单状态
+      },
+    })
+  }
 
-
+  handleChangeQuantity (quantity) {
+    this.setState({
+      quantity
+    })
+  }
 
 
   render() {
+    const { id, name, info, memo,realPrice,price } = this.$router.params
     const { banners } = this.state
     return (
       <View className='mainView'>
@@ -133,71 +140,61 @@ export default class Index extends Component {
         </Swiper>
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
+
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
-          <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#fa8c16' }}>
+          <View style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#fa8c16' }}>
             <View style={{ marginTop: '5px' }}>
-              <Text>新人</Text></View>
+              <Text>{realPrice/100}元</Text></View>
             <View >
-              <Text>好礼</Text></View>
+              <Text>{price/100}元</Text></View>
           </View>
-          <View className='at-col  at-col-6 ' >
-            <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>三日自习课时免费送</Text>
+          <View >{/*className='at-col  at-col-6 '*/}
+            <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>{name}</Text>
           </View>
-          <View className='at-col  at-col-4' >
-            <Button style={{ backgroundColor: '#fa8c16', color: '#ffffff' }} circle={true} size='mini'>立即领取</Button>
-          </View>
+
         </View>
-        快速购买
+
         <View className='defaultView at-row at-row--wrap' >
-          <View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
-            <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={()=>this.charge(0,1)}>
-              <View ><Text>课时卡</Text></View>
-              <View><Text>可自由转换为其它卡</Text></View>
-              <View> <Text>大惊喜！存就送</Text></View>
-            </View>
-          </View>
-          <View className='at-col  at-col-6 mainView' >
-            <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={()=>this.charge(0,2)}>
-              <View><Text>单日四小时卡</Text></View>
-              <View><Text>10 20元</Text></View>
-            </View>
-          </View>
-          <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-            <View style='margin: 5px;height: 90px;background:#096dd9;color:#fff' onClick={()=>this.charge(1,5)}>
-              <View ><Text>日卡</Text></View>
-            </View>         
-        </View>
-        <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 90px;background:#1d39c4;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
-            <View ><Text>7日卡</Text></View>
-          </View>
-        </View>
-        <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 90px;background:#531dab;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+          <View className='at-col  mainView'/*  style={{textAlign: 'center' }} */>
+            <Text>详细介绍</Text>
 
-            <View ><Text>30日卡</Text></View>
+          </View>
+          <View className='at-col at-col-12 mainView'/*  style={{textAlign: 'center' }} */>
+            <RichText nodes={info} />
           </View>
         </View>
-        <View className='at-col  at-col-6 mainView' style={{ textAlign: 'center' }}>
-          <View style='margin: 5px;height: 90px;background:#c41d7f;color:#fff' onClick={this.showWebView.bind(this, b.Url)}>
+         <View className='defaultView at-row at-row--wrap' >
+          <View className='at-col  mainView'/*  style={{textAlign: 'center' }} */>
+            <Text>其它</Text>
 
-            <View ><Text>90日卡</Text></View>
           </View>
+          <View className='at-col at-col-12 mainView'/*  style={{textAlign: 'center' }} */>
+            <RichText nodes={memo} />
+          </View>
+
+
         </View>
-      </View>
-          {/* <View style={{ marginTop: '10px', marginLeft: '10px' }}>
-          自习室地址：</View>*/}
-    <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
-      <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#fa8c16' /></View>
-      <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
-        武汉市洪山区鲁磨路243号国光大厦B座1401室
-            </View>
-      <View className='at-col  at-col-2' >
-        <AtIcon value='phone' size='30' color='#fa8c16' onClick={this.onCall} /></View>
-    </View>
-    {/*   <Map style={{ marginTop: '5px', height: '180px', width: '750px' }} latitude={30.512130} longitude={114.399730} markers={[{ latitude: 30.512130, longitude: 114.399730 }]} onClick={this.onTap} /> */ }
-        </View >
-        )
+           <View className='defaultView at-row at-row--wrap' >
+          <View className='at-col  mainView'/*  style={{textAlign: 'center' }} */>
+            <Text>数量</Text>
+
+          </View>
+          <View className='at-col at-col-12 mainView'/*  style={{textAlign: 'center' }} */>
+             <AtInputNumber
+        min={1}
+     
+        step={1}
+        value={this.state.quantity}
+        onChange={this.handleChangeQuantity.bind(this)}
+      />
+          </View>
+
+
+        </View>
+        总价：{realPrice*this.state.quantity/100}元
+ <AtButton type='primary' size='small' onClick={()=>this.charge(''+id,this.state.quantity)}>支付</AtButton> 
+      </View >
+    )
   }
 }
 

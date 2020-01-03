@@ -214,7 +214,7 @@ export default class Index extends Component {
           (<View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
            <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={() => 
               Taro.navigateTo({
-    url: '/pages/order/index'
+    url: `/pages/order/index?id=${p.id}&name=${p.name}&info=${p.info}&memo=${p.memo}&realPrice=${p.real_price}&price=${p.price}`
   })}
              >
               <View ><Text>{p.name}</Text></View>
