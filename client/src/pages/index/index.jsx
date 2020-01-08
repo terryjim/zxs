@@ -195,8 +195,17 @@ export default class Index extends Component {
         </Swiper>
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
+         <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
+         <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#f5222d' /></View>
+          <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
+            武汉市洪山区鲁磨路243号国光大厦B座1401室
+            </View>
+           
+          <View className='at-col  at-col-2' >
+            <AtIcon value='phone' size='30' color='#f5222d' onClick={this.onCall} /></View>
+        </View>
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
-          <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#fa8c16' }}>
+          <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#f5222d' }}>
             <View style={{ marginTop: '5px' }}>
               <Text>新人</Text></View>
             <View >
@@ -262,14 +271,7 @@ export default class Index extends Component {
         </View>
         {/* <View style={{ marginTop: '10px', marginLeft: '10px' }}>
           自习室地址：</View>*/}
-        <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
-          <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#fa8c16' /></View>
-          <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
-            武汉市洪山区鲁磨路243号国光大厦B座1401室
-            </View>
-          <View className='at-col  at-col-2' >
-            <AtIcon value='phone' size='30' color='#fa8c16' onClick={this.onCall} /></View>
-        </View>
+       
         {/*   <Map style={{ marginTop: '5px', height: '180px', width: '750px' }} latitude={30.512130} longitude={114.399730} markers={[{ latitude: 30.512130, longitude: 114.399730 }]} onClick={this.onTap} /> */}
       </View >
     )

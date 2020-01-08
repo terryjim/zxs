@@ -19,7 +19,7 @@ class App extends Component {
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fa8c16',
+      navigationBarBackgroundColor: '#1890ff',
       navigationBarTitleText: '知无涯自习室',
       navigationBarTextStyle: 'white'
     },
