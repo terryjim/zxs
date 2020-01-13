@@ -84,9 +84,14 @@ button {
   //缺省样式，缩进10px
   //margin:50px;
   background-color: #ffffff;
+ // margin-top:5px;
+}
+.defaultMarginView {
+  //缺省样式，缩进10px
+  //margin:50px;
+  background-color: #ffffff;
   margin-top:5px;
 }
-
 .defaultBorderView {
   //缺省带边框view
   @extend .defaultView; 

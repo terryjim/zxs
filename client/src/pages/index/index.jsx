@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, ScrollView, Image, Text, Swiper, SwiperItem, Map, Button } from '@tarojs/components'
 import { AtGrid, AtIcon, AtButton, AtCard } from 'taro-ui'
 import './index.scss'
-
+import logo from './../../assets/images/logo.jpg'
 import Login from '../../components/login/index'
 const basehref = 'cloud://zxs5188.7a78-zxs5188-1300852908/'
 export default class Index extends Component {
@@ -193,16 +193,21 @@ export default class Index extends Component {
             })
           }
         </Swiper>
+         <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '100px' }}>
+ <View className='at-col  at-col-4' ><Image src={logo} style='width: 100px;height: 100px;'/></View>
+ <View className='at-col  at-col-8' ><Text>知无涯自习室</Text></View>
+
+           </View>
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
-         <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
-         <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#f5222d' /></View>
+         <View className='defaultMarginView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
+         <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#1890ff' /></View>
           <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
             武汉市洪山区鲁磨路243号国光大厦B座1401室
             </View>
            
           <View className='at-col  at-col-2' >
-            <AtIcon value='phone' size='30' color='#f5222d' onClick={this.onCall} /></View>
+            <AtIcon value='phone' size='30' color='#1890ff' onClick={this.onCall} /></View>
         </View>
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
           <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#f5222d' }}>
