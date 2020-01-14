@@ -134,15 +134,16 @@ export default class My extends Component {
           <AtGrid hasBorder={false} onClick={this.onGridClick} columnNum={3} data={
             [
               {
-                image: room,
+                //image: room,
+                icon:'clock',
                 value: '快速购课'
               },
               {
-                image: company,
+               // image: company,
                 value: '购课记录'
               },
               { 
-                image: discount,
+               // image: discount,
                 value: '我的卡片'
               },
             /* { 
@@ -150,7 +151,7 @@ export default class My extends Component {
                 value: '上课记录'
               },*/
               {
-                image: car,
+              //  image: car,
                 value: '我的预约'
               },
               {/* {

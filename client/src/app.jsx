@@ -32,8 +32,8 @@ class App extends Component {
         {
           pagePath: 'pages/index/index',
           text: '首页',
-          iconPath: 'assets/images/21132058093sy@2x.png',
-          selectedIconPath: 'assets/images/21133513667sy2x.png'
+          iconPath: 'assets/images/home.png',
+          selectedIconPath: 'assets/images/home_sel.png'
         }/* , {
           pagePath: 'pages/im/index',
           text: '聊天',
@@ -59,13 +59,13 @@ class App extends Component {
         }, */ {
           pagePath: 'pages/appointment/index',
           text: '预约',
-          iconPath: 'assets/images/21133514234yp2x.png',
-          selectedIconPath: 'assets/images/21133514102yp_s2x.png'
+          iconPath: 'assets/images/order.png',
+          selectedIconPath: 'assets/images/order_sel.png'
         }, {
           pagePath: 'pages/my/index',
           text: '我的',
-          iconPath: 'assets/images/21133514758w2x.png',
-          selectedIconPath: 'assets/images/21133514592w_s2x.png'
+          iconPath: 'assets/images/my.png',
+          selectedIconPath: 'assets/images/my_sel.png'
         },
       ]
 

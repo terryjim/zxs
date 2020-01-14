@@ -38,7 +38,7 @@ export default class Index extends Component {
       data: { action: 'query' }
     })
       .then(res => {
-        console.log( res.result.data)
+        console.log(res.result.data)
         this.setState({ products: res.result.data })
       }).catch(e => {
         console.log(e)
@@ -106,19 +106,19 @@ export default class Index extends Component {
 
 
   }
-/*   charge2 = () => {
-    Taro.cloud
-      .callFunction({
-        name: "pay",
-        data: { amount: 1000, added: 3000 }
-      })
-      .then(res => {
-        console.log(res)
-        this.setState({
-          context: res.result
+  /*   charge2 = () => {
+      Taro.cloud
+        .callFunction({
+          name: "pay",
+          data: { amount: 1000, added: 3000 }
         })
-      })
-  } */
+        .then(res => {
+          console.log(res)
+          this.setState({
+            context: res.result
+          })
+        })
+    } */
 
   //支付提交
   charge = (productId = 0, quantity = 1) => {
@@ -167,7 +167,7 @@ export default class Index extends Component {
 
 
   render() {
-    const { banners,products } = this.state
+    const { banners, products } = this.state
     return (
       <View className='mainView'>
         {/* <Login/>*/}
@@ -179,7 +179,7 @@ export default class Index extends Component {
           circular
           indicatorDots
           autoplay
-          style='height:150px'
+          style='height:200px'
         >
           {
             !banners ? '' : banners.map(b => {
@@ -187,29 +187,34 @@ export default class Index extends Component {
                 <View>
 
                   <SwiperItem key={b.id}>
-                    <Image mode='scaleToFill' style='height: 150px;background: #fff;' src={'cloud://zxs5188.7a78-zxs5188-1300852908/' + b.img} onClick={this.showWebView.bind(this, b.Url)} />
+                    <Image mode='scaleToFill' style='height: 200px;background: #fff;' src={'cloud://zxs5188.7a78-zxs5188-1300852908/' + b.img} onClick={this.showWebView.bind(this, b.Url)} />
                   </SwiperItem>
                 </View>)
             })
           }
         </Swiper>
-         <View className='defaultView at-row at-row__align--center at-row__justify--center' style={{ height: '100px' }}>
- <View className='at-col  at-col-4' ><Image src={logo} style='width: 100px;height: 100px;'/></View>
- <View className='at-col  at-col-8' ><Text>知无涯自习室</Text></View>
+       {/* <View className='defaultMarginView at-row at-row__align--center at-row__justify--center' style={{ height: '60px' }}>
+          <View className='at-col  at-col-3' ><Image src={logo} style='width: 80px;height: 60px;' /></View>
+          <View className='at-col  at-col-9' >
+            <View>
+              <Text style='font-size:22px'>知无涯自习室</Text>
+            </View><View>
+              <Text style='font-size:13px'>读书、考证、提升自我 [沉浸式]学习空间</Text></View>
+          </View>
 
-           </View>
+        </View>*/}
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
-         <View className='defaultMarginView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
-         <View onClick={this.onTap} className='at-col  at-col-1 ' > <AtIcon value='map-pin' color='#1890ff' /></View>
-          <View onClick={this.onTap} className='at-col  at-col-9 at-col--wrap'>
+        <View className='defaultMarginView at-row at-row__align--center at-row__justify--center' style={{ height: '50px' }}>
+          <View onClick={this.onTap} className='at-col  at-col-8 at-col--wrap ' style={{ paddingLeft: '10px' }}>
             武汉市洪山区鲁磨路243号国光大厦B座1401室
             </View>
-           
-          <View className='at-col  at-col-2' >
+          <View onClick={this.onTap} className='at-col  at-col-2 ' style={{ textAlign: 'center' }} > <AtIcon value='map-pin' color='#1890ff' /></View>
+
+          <View className='at-col  at-col-2' style={{ textAlign: 'center' }}>
             <AtIcon value='phone' size='30' color='#1890ff' onClick={this.onCall} /></View>
         </View>
-        <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
+        {/*<View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
           <View className='at-col  at-col-2 ' style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#f5222d' }}>
             <View style={{ marginTop: '5px' }}>
               <Text>新人</Text></View>
@@ -222,22 +227,34 @@ export default class Index extends Component {
           <View className='at-col  at-col-4' >
             <Button style={{ backgroundColor: '#fa8c16', color: '#ffffff' }} circle={true} size='mini'>立即领取</Button>
           </View>
+        </View>*/}
+        <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '50px', marginTop: '5px' }}>
+          <View className='at-col  at-col-9   ' style={{ height: '50px', lineHeight: '20px', }}>
+            <View style={{ marginTop: '5px' }}>
+              <Text>新人领取免费课时卡</Text></View>
+          </View>
+          {/*<View className='at-col  at-col-6 ' >
+            <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>三日自习课时免费送</Text>
+          </View>*/}
+          <View className='at-col  at-col-3' >
+            <Button style={{ backgroundColor: '#1890ff', color: '#ffffff' }} circle={true} size='mini'>立即领取</Button>
+          </View>
         </View>
         快速购买
         <View className='defaultView at-row at-row--wrap' >
-         {products.map(p=>
-          (<View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
-           <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={() => 
-              Taro.navigateTo({
-    url: `/pages/order/index?id=${p._id}&name=${p.name}&info=${p.info}&memo=${p.memo}&realPrice=${p.real_price}&price=${p.price}`
-  })}
-             >
-              <View ><Text>{p.name}</Text></View>
-              <View><Text>{p.info}</Text></View>
-              <View> <Text>{p.memo}</Text></View>
+          {products.map(p =>
+            (<View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
+              <View style='margin: 5px;height: 90px;background:#08979c;color:#fff' onClick={() =>
+                Taro.navigateTo({
+                  url: `/pages/order/index?id=${p._id}&name=${p.name}&info=${p.info}&memo=${p.memo}&realPrice=${p.real_price}&price=${p.price}`
+                })}
+              >
+                <View ><Text>{p.name}</Text></View>
+                <View><Text>{p.info}</Text></View>
+                <View> <Text>{p.memo}</Text></View>
+              </View>
             </View>
-          </View>
-          ))
+            ))
           }
           {/*  <View style='margin: 5px;height: 90px;background:#389e0d;color:#fff' onClick={() => this.charge(0, 1)}>
               <View ><Text>课时卡</Text></View>
@@ -276,7 +293,7 @@ export default class Index extends Component {
         </View>
         {/* <View style={{ marginTop: '10px', marginLeft: '10px' }}>
           自习室地址：</View>*/}
-       
+
         {/*   <Map style={{ marginTop: '5px', height: '180px', width: '750px' }} latitude={30.512130} longitude={114.399730} markers={[{ latitude: 30.512130, longitude: 114.399730 }]} onClick={this.onTap} /> */}
       </View >
     )
