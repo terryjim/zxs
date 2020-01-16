@@ -231,7 +231,7 @@ export default class Index extends Component {
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '80px', marginTop: '5px' }}>
           <View className='at-col  at-col-9   ' >
             <View style={{ marginTop: '5px', paddingLeft: '10px' }}>
-              <Text style='font-size:22px'>新人领取免费课时卡</Text></View>
+              <Text style='font-size:22px;font-weight:400;'>新人领取免费课时卡</Text></View>
           </View>
           {/*<View className='at-col  at-col-6 ' >
             <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>三日自习课时免费送</Text>
@@ -243,7 +243,7 @@ export default class Index extends Component {
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '80px', marginTop: '5px' }}>
           <View className='at-col  at-col-9   '>
             <View style={{ paddingLeft: '10px' }}>
-              <Text style='font-size:22px'>在线买单</Text></View>
+              <Text style='font-size:22px;font-weight:400;'>在线买单</Text></View>
           </View>
           {/*<View className='at-col  at-col-6 ' >
             <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>三日自习课时免费送</Text>
@@ -252,16 +252,19 @@ export default class Index extends Component {
             <Button style={{ backgroundColor: '#1890ff', color: '#ffffff' }} circle={true} size='mini'>买　　单</Button>
           </View>
         </View>
-        <View className='defaultMarginView ' style={{height:'200px'}}>
-           <Text style='font-size:22px;padding-left: 10px'>快速购买</Text>
-        <View className='defautlView at-row at-row--wrap' >
+        <View className='defaultMarginView ' style={{ height: '200px', marginTop: '5px' }}>
+          <View className='at-row at-row__align--center ' style='height: 60px;'>
+            <Text style='font-size:22px;font-weight:400;padding-left: 10px'>快速购买</Text>
+          </View>
+          <View className='defautlView at-row at-row--wrap'  >
             {products.map(p =>
-              (<View className='at-col  at-col-6 mainView'/*  style={{textAlign: 'center' }} */>
-                <View style='margin: 5px;height: 90px;background:#40a9ff;color:#fff' onClick={() =>
+              (<View className='at-col  at-col-6 '/*  style={{textAlign: 'center' }} */>
+                <View style='margin: 5px;{/*height: 90px;background:#40a9ff;color:#fff*/}' onClick={() =>
                   Taro.navigateTo({
                     url: `/pages/order/index?id=${p._id}&name=${p.name}&info=${p.info}&memo=${p.memo}&realPrice=${p.real_price}&price=${p.price}`
                   })}
                 >
+                  <View><Image src={logo} style='width: 200px;height:200px' /></View>
                   <View ><Text>{p.name}</Text></View>
                   <View><Text>{p.info}</Text></View>
                   <View> <Text>{p.memo}</Text></View>
