@@ -14,8 +14,8 @@ import './styles/base.scss'
 class App extends Component {
   config = {
     pages: [
-      'pages/index/index', 'pages/my/index', 'pages/appointment/index','pages/order/index',
-      'pages/appointment/confirm', 'pages/my/appointment', 'pages/my/cards'
+      'pages/my/index','pages/appointment/index','pages/my/appointment','pages/index/index',  'pages/order/index',
+      'pages/appointment/confirm',  'pages/my/cards',
     ],
     window: {
       backgroundTextStyle: 'light',

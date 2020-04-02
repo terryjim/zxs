@@ -28,7 +28,7 @@ export default class Cards extends Component {
     }
   }
   config = {
-    navigationBarTitleText: '我的卡片',
+    navigationBarTitleText: '我的课时',
   }
   /*   redirect = (url) => Taro.navigateTo({
       url: url
@@ -78,13 +78,13 @@ export default class Cards extends Component {
 
         <View >
           <View style={{margin:'10px'}}>
-          <Text > 预约中</Text>
+             <Text style='font-size:22px;font-weight:400;padding-left: 10px'>预约中</Text>                 
           </View>
 <AtList>
             {appointmentList && appointmentList.map(x => {
               if (new Date(x.start).getTime() >= new Date(getFormatDate(new Date())).getTime())
                 return (<AtListItem title={x.start}
-                  note={'至' + x.end} extraText={'桌号：' + x.desk} arrow='right' iconInfo={{
+                  note={'至' + x.end} extraText={'桌号：' + x.desk}  iconInfo={{
                     size:
                     25, color: '#78A4FA', value: 'calendar',
                   }} />)
@@ -109,15 +109,15 @@ export default class Cards extends Component {
 
         </View>
         <View>
-            <View style={{margin:'10px'}}>
-          <Text > 预约历史</Text>
+            <View style={{margin:'10px',paddingTop:'10px'}}>
+          <Text style='font-size:22px;font-weight:400;padding-left: 10px;'> 预约历史</Text>
           </View>
         
         <AtList>
             {appointmentList && appointmentList.map(x => {
               if (new Date(x.start).getTime() < new Date(getFormatDate(new Date())).getTime())
                 return (<AtListItem title={x.start}
-                  note={'至' + x.end} extraText={'桌号：' + x.desk} arrow='right' iconInfo={{
+                  note={'至' + x.end} extraText={'桌号：' + x.desk}  iconInfo={{
                     size:
                      25, color: '#FF4949', value: 'bookmark',
                   }} />)

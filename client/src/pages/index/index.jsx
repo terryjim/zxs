@@ -17,7 +17,6 @@ export default class Index extends Component {
       banners: [],   //轮播图
       products: []
     }
-
   }
   componentWillMount() { }
 
@@ -103,66 +102,8 @@ export default class Index extends Component {
         console.log('----------------------------------------')
         console.log(e)
       })
-
-
   }
-  /*   charge2 = () => {
-      Taro.cloud
-        .callFunction({
-          name: "pay",
-          data: { amount: 1000, added: 3000 }
-        })
-        .then(res => {
-          console.log(res)
-          this.setState({
-            context: res.result
-          })
-        })
-    } */
-
-  //支付提交
-  charge = (productId = 0, quantity = 1) => {
-    // let that = this;
-    Taro.showLoading({
-      title: '正在下单',
-    });
-    // 利用云开发接口，调用云函数发起订单
-    Taro.cloud.callFunction({
-      name: 'charge',
-      data: {
-        productId,
-        quantity
-      },
-      success: res => {
-        wx.hideLoading();
-        this.pay(res.result)
-      },
-      fail(e) {
-        console.log(e)
-        Taro.hideLoading();
-        Taro.showToast({
-          title: '支付失败，请及时反馈或稍后再试',
-          icon: 'none'
-        })
-      }
-    });
-  }
-  //实现小程序支付
-  pay(payData) {
-    /* let that = this;*/
-    //官方标准的支付方法
-    Taro.requestPayment({
-      timeStamp: payData.timeStamp,
-      nonceStr: payData.nonceStr,
-      package: payData.package, //统一下单接口返回的 prepay_id 格式如：prepay_id=***
-      signType: 'MD5',
-      paySign: payData.paySign, //签名
-      success(res) {
-        // that.setStatus();   修改卖家订单状态
-      },
-    })
-  }
-
+ 
 
 
 
@@ -231,7 +172,7 @@ export default class Index extends Component {
         <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '80px', marginTop: '5px' }}>
           <View className='at-col  at-col-9   ' >
             <View style={{ marginTop: '5px', paddingLeft: '10px' }}>
-              <Text style='font-size:22px;font-weight:400;'>新人领取免费课时卡</Text></View>
+              <Text style='font-size:22px;font-weight:400;'>新人免费课时卡</Text></View>
           </View>
           {/*<View className='at-col  at-col-6 ' >
             <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>三日自习课时免费送</Text>
@@ -258,16 +199,25 @@ export default class Index extends Component {
           </View>
           <View className='defautlView at-row at-row--wrap'  >
             {products.map(p =>
-              (<View className='at-col  at-col-6 '/*  style={{textAlign: 'center' }} */>
+              (<View className='at-col  at-col-6 ' >
                 <View style='margin: 5px;{/*height: 90px;background:#40a9ff;color:#fff*/}' onClick={() =>
                   Taro.navigateTo({
                     url: `/pages/order/index?id=${p._id}&name=${p.name}&info=${p.info}&memo=${p.memo}&realPrice=${p.real_price}&price=${p.price}`
                   })}
                 >
                   <View><Image src={logo} style='width: 200px;height:200px' /></View>
-                  <View ><Text>{p.name}</Text></View>
-                  <View><Text>{p.info}</Text></View>
-                  <View> <Text>{p.memo}</Text></View>
+                  <View className='at-row' >
+                    <View className='at-col  at-col-6 '> <Text style='margin-left:20px'>{p.name}</Text>
+                    </View>
+
+                    <View className='at-col  at-col-6 ' style={{ textAlign: 'right' }} >
+                      {/* <View style={{ textAlign: 'right' }}>*/}
+                      <Text style={{ fontWeight: 550, color: 'red' }}>¥{p.real_price/100}</Text>
+                      {/* <div style="margin-left:5px;text-decoration:line-through;">*/}
+                      <Text style={{ marginLeft: '5px', textDecoration: 'line-through', color: '#ccc', fontSize: '15px' }}>{p.price/100}</Text>
+                      {/*  </div>*/}
+                    </View></View>
+
                 </View>
               </View>
               ))

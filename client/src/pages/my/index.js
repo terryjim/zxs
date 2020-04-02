@@ -5,14 +5,15 @@ import { AtList, AtListItem, AtGrid, AtToast } from 'taro-ui'
 
 
 import './index.scss'
-import room from '../../assets/images/room.png'
+/*import room from '../../assets/images/room.png'
 import discount from '../../assets/images/discount.png'
 import company from '../../assets/images/company.png'
-import car from '../../assets/images/car.png'
+import car from '../../assets/images/car.png'*/
 import { apiUrl } from '../../config';
 import rpx2px from '../../utils/rpx2px.js'
 import { createQrCode } from '../../utils/qrCode.js'
-const qrcodeWidth = rpx2px(350)
+//const qrcodeWidth = rpx2px(300)
+const qrcodeWidth = 200
 const QRCode = require('../../utils/weapp-qrcode.js')
 /*@connect(({ my,loading }) => ({
   ...my,...loading,
@@ -45,21 +46,21 @@ export default class My extends Component {
   }
   onGridClick = (item, number) => {
     switch (number) {
-     /* case 0:
-        this.charge();
+      /* case 0:
+         this.charge();
+        
+         break;
+       case 1:
+         this.redirect("/pages/company/index")4
+         break;
+       case 2:
+         this.redirect("/pages/index/index");
        
-        break;
-      case 1:
-        this.redirect("/pages/company/index");
-        break;
+         break;*/
       case 2:
-        this.redirect("/pages/index/index");
-      
-        break;*/
-        case 2:
-          this.redirect("/pages/my/cards");
-          break;
-        case 3:
+        this.redirect("/pages/my/cards");
+        break;
+      case 4:
         this.redirect("/pages/my/appointment");
         break;
       default:
@@ -69,7 +70,7 @@ export default class My extends Component {
         });
     }
   }
-  
+
   componentDidMount() {
     /* let userInfo = Taro.getStorageSync('userInfo')
      if(!userInfo || !userInfo.access_token){
@@ -118,11 +119,11 @@ export default class My extends Component {
           <View className='at-col at-col-9'>
             <open-data type="userNickName"></open-data></View>
         </View>
-      
+
 
         <View className='at-row  at-row__justify--center' style={{ marginTop: '20px' }}>
-          <View className='at-col at-col-6'>
-            <Canvas className='at-col ' canvasId='canvas' >
+          <View style={{ width: '200px' }} >
+            <Canvas canvasId='canvas' style={{ width: '200px', height: '200px', background: '#cccccc' }}>
             </Canvas>
           </View>
         </View>
@@ -130,49 +131,74 @@ export default class My extends Component {
           <View className='at-col at-col-6'>进入自习室时请扫描此码</View>
         </View>
 
-        <View className='defaultView'>
+        <View className='defaultView' style={{paddingLeft:'30px',paddingRight:'30px'}}>
           <AtGrid hasBorder={false} onClick={this.onGridClick} columnNum={3} data={
             [
               {
-                //image: room,
-                icon:'clock',
+                //    image: room,
+
+                iconInfo: {
+                  size: 30,
+                  color: 'red',
+                  value: 'add-circle'
+                },
                 value: '快速购课'
               },
               {
-               // image: company,
+                iconInfo: {
+                  size: 30,
+                  color: 'red',
+                  value: 'money'
+                },
                 value: '购课记录'
               },
-              { 
-               // image: discount,
-                value: '我的卡片'
-              },
-            /* { 
-                image: discount,
-                value: '上课记录'
-              },*/
               {
-              //  image: car,
+                iconInfo: {
+                  size: 30,
+                  color: 'red',
+                  value: 'credit-card'
+                },
+                value: '我的课时'
+              },
+              {
+                iconInfo: {
+                  size: 30,
+                  color: 'red',
+                  value: 'bullet-list'
+                },
+                value: '上课记录'
+              },
+              {
+                iconInfo: {
+                  size: 30,
+                  color: 'red',
+                  value: 'calendar'
+                },
                 value: '我的预约'
               },
-              {/* {
-                image: car,
+              {
+                iconInfo: {
+                  size: 30,
+                  color: 'red',
+                  value: 'share'
+                },
                 value: '推广'
-              }*/}
+              }
             ]
           }
 
           />
         </View>
-        {/* <View className='defaultView'>
+        <View className='defaultView'>
           <AtList hasBorder={false}>
             <AtListItem title='姓名' arrow='right' onClick={this.showInfo.bind(this, "我的订单")} />
             <AtListItem title='手机' arrow='right' onClick={this.gotoFace.bind(this)} />
-            
+
             <AtListItem title='意见反馈' arrow='right' onClick={this.redirect.bind(this, "/pages/opinionFeedback/index")} />
             <AtListItem title='关于我们' arrow='right' onClick={this.redirect.bind(this, "/pages/about/index")} />
 
           </AtList>
-        </View>*/}
+        </View>
       </View>
     )
   }

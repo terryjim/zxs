@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, ScrollView, Image, Text, Swiper, SwiperItem, Map, Button, RichText } from '@tarojs/components'
-import { AtGrid, AtIcon, AtButton, AtCard,AtInputNumber  } from 'taro-ui'
+import { AtGrid, AtIcon, AtButton, AtCard, AtInputNumber } from 'taro-ui'
 import './index.scss'
 
 import Login from '../../components/login/index'
@@ -15,7 +15,9 @@ export default class Index extends Component {
     //let userInfo = Taro.getStorageSync("userInfo")
     this.state = {
       banners: [],   //轮播图
-      quantity:1,//购买数量
+      quantity: 1,//购买数量
+      promotions: [],
+      free:0,//赠送课时
     }
 
   }
@@ -34,6 +36,21 @@ export default class Index extends Component {
         Taro.showToast(e)
       })
 
+    //按buy降序显示赠送课时数组[{id:...,buy:...,free:...}]
+    Taro.cloud
+      .callFunction({
+        name: "promotion",
+        data: { action: 'query' }
+      })
+      .then(res => {
+        console.log('-------------%%%%%%%%%%%%%%%%%5-----------------------')
+        console.log(res.result)
+
+        this.setState({ promotions: res.result.data })
+      }).catch(e => {
+        console.log(e)
+        Taro.showToast(e)
+      })
   }
 
   componentWillUnmount() { }
@@ -41,25 +58,25 @@ export default class Index extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-  
+
 
 
   //支付提交
-  charge = (productId = '0', quantity = 1) => {
-    // let that = this;
+  charge = (productId,quantity,free,pay) => {
+    // let that = this;pay
     Taro.showLoading({
       title: '正在下单',
     });
     // 利用云开发接口，调用云函数发起订单
     Taro.cloud.callFunction({
-      name: 'charge',
+      name: 'pay',
       data: {
         productId,
         quantity
       },
       success: res => {
         wx.hideLoading();
-        this.pay(res.result)
+        this.pay(res.result,productId,quantity,free,pay)
       },
       fail(e) {
         console.log(e)
@@ -72,7 +89,10 @@ export default class Index extends Component {
     });
   }
   //实现小程序支付
-  pay(payData) {
+  pay(payData,productId,quantity,free,pay) {
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    console.log(payData)
+    //return
     /* let that = this;*/
     //官方标准的支付方法
     Taro.requestPayment({
@@ -83,21 +103,54 @@ export default class Index extends Component {
       paySign: payData.paySign, //签名
       success(res) {
         // that.setStatus();   修改卖家订单状态
+        //添加购课记录，更新未消费记录
+////////////
+Taro.cloud
+      .callFunction({
+        name: "base",
+        data: { needOpenid:true,action: 'insert',tbl:'charge',payload:{product_id:productId,free,quantity,pay}}
+      })
+      .then(res => {
+        console.log('-------------%%%%%%%%%%%%%%%%%5-----------------------')
+        console.log(res.result)
+
+        //this.setState({ promotions: res.result.data })
+      }).catch(e => {
+        console.log(e)
+        Taro.showToast(e)
+      })
+
+
+        /////////////////////
+
+
       },
     })
   }
 
-  handleChangeQuantity (quantity) {
+  handleChangeQuantity(quantity) {
     this.setState({
-      quantity
+      quantity,
+      free:this.getFree(quantity)
     })
   }
 
-
+  //获取赠送课时
+  getFree(buy) {
+    let promotions = this.state.promotions
+    let free = 0
+    let index = 0
+    while (index <= promotions.length - 1 && free === 0) {
+      if (buy >= promotions[index].buy)
+        free = promotions[index].free
+      else
+        index++
+    }
+    return free
+  }
   render() {
-    const { id, name, info, memo,realPrice,price } = this.$router.params
-    console.log(this.$router.params)
-    const { banners } = this.state
+    const { id, name, info, memo, realPrice, price } = this.$router.params  
+    const { banners, promotions } = this.state   
     return (
       <View className='mainView'>
         {/* <Login/>*/}
@@ -125,59 +178,90 @@ export default class Index extends Component {
         </Swiper>
         {/*  <AtIcon prefixClass='fa' value='clock' size='30' color='#F00'></AtIcon>
         <AtIcon  value='map-pin'/>*/}
+        <View className='at-row at-row__align--center at-row__justify--centcer defaultMarginView' style={{ height: '90px' }}>
+          <View className='at-col  at-col-12   ' >
 
-        <View onClick={this.getGift} className='at-row at-row__align--center at-row__justify--center defaultBorderView' style={{ height: '50px', marginTop: '5px' }}>
-          <View style={{ height: '50px', lineHeight: '20px', color: '#fff', textAlign: 'center', background: '#fa8c16' }}>
-            <View style={{ marginTop: '5px' }}>
-              <Text>{realPrice/100}元</Text></View>
-            <View >
-              <Text>{price/100}元</Text></View>
+            <View className='at-col  at-col-6 ' style={{ marginTop: '5px', paddingLeft: '10px' }} >
+              {/* <View style={{ textAlign: 'right' }}>*/}
+              <Text style={{ fontSize: '30px', fontWeight: 400, color: 'red' }}>¥{realPrice / 100}</Text>
+              {/* <div style="margin-left:5px;text-decoration:line-through;">*/}
+              <Text style={{ fontSize: '20px', marginLeft: '5px', textDecoration: 'line-through', color: '#ccc' }}>{price / 100}</Text>
+              {/*  </div>*/}
+            </View>
+            <View style={{ marginTop: '5px', paddingLeft: '10px' }}>
+              <Text style='font-size:22px;font-weight:400;'>{name}</Text></View>
           </View>
-          <View >{/*className='at-col  at-col-6 '*/}
-            <Text style={{ color: 'red', fontSize: '15px', marginLeft: '10px' }}>{name}</Text>
-          </View>
+         
 
         </View>
-
-        <View className='defaultView at-row at-row--wrap' >
-          <View className='at-col  mainView'/*  style={{textAlign: 'center' }} */>
-            <Text>详细介绍</Text>
-
+        <View className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '60px', marginTop: '5px' }}>
+          <View className='at-col  at-col-12   '>
+            <View style={{ paddingLeft: '10px' }}>
+              <Text style='font-size:22px;font-weight:400;'>详细介绍</Text>
+            </View>
           </View>
-          <View className='at-col at-col-12 mainView'/*  style={{textAlign: 'center' }} */>
+        </View>
+        {/*  <View  className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ marginTop: '1px' }}>*/}
+        <View className='defaultMarginView' style={{ marginTop: '1px', paddingTop: '5px', paddingBottom: '5px' }}>
+          <View style={{ marginTop: '5px', paddingLeft: '10px' }}>
             <RichText nodes={info} />
-          </View>
-        </View>
-         <View className='defaultView at-row at-row--wrap' >
-          <View className='at-col  mainView'/*  style={{textAlign: 'center' }} */>
-            <Text>其它</Text>
-
-          </View>
-          <View className='at-col at-col-12 mainView'/*  style={{textAlign: 'center' }} */>
             <RichText nodes={memo} />
           </View>
+        </View>
+       
 
+
+        <View className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '60px', marginTop: '5px' }}>
+          <View className='at-col  at-col-8   '>
+            <View style={{ paddingLeft: '10px' }}>
+              <Text style='font-size:18px;font-weight:400;'>购买数量</Text>
+            </View>
+          </View>
+          <View className='at-col  at-col-4   '>
+            <View >
+              <AtInputNumber
+                min={1}
+                max={1000}
+                step={1}
+                value={this.state.quantity}
+                onChange={this.handleChangeQuantity.bind(this)}
+              />
+            </View>
+          </View>
+        </View>
+        {id==='0'?
+        <View className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '60px', marginTop: '1px' }}>
+          <View className='at-col  at-col-10   '>
+            <View style={{ paddingLeft: '10px' }}>
+              <Text style='font-size:18px;font-weight:400;'>赠送时长</Text>
+            </View>
+          </View>
+          <View className='at-col  at-col-2 '>
+            <View >
+              {this.state.free}
+
+            </View>
+          </View>
+        </View>
+        :''}
+        <View className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '60px', marginTop: '1px' }}>
+          <View className='at-col  at-col-8   '>
+            <View style={{ paddingLeft: '10px' }}>
+              <Text style='font-size:18px;font-weight:400;'>总价</Text>
+            </View>
+          </View>
+          <View className='at-col  at-col-4   '>
+            <View style={{ textAlign: 'right', paddingRight: '50px', color: 'red' }} >
+              ¥{realPrice * this.state.quantity / 100}
+            </View>
+          </View>
 
         </View>
-           <View className='defaultView at-row at-row--wrap' >
-          <View className='at-col  mainView'/*  style={{textAlign: 'center' }} */>
-            <Text>数量</Text>
-
+        <View className='at-row at-row__align--center at-row__justify--center defaultMarginView' style={{ height: '60px', marginTop: '1px' }}>
+          <View className='at-col  at-col-8   '>
+            <AtButton type='primary' size='small' onClick={() => this.charge(id, this.state.quantity,this.state.free,realPrice * this.state.quantity)}>支付</AtButton>
           </View>
-          <View className='at-col at-col-12 mainView'/*  style={{textAlign: 'center' }} */>
-             <AtInputNumber
-        min={1}
-     
-        step={1}
-        value={this.state.quantity}
-        onChange={this.handleChangeQuantity.bind(this)}
-      />
-          </View>
-
-
         </View>
-        总价：{realPrice*this.state.quantity/100}元
- <AtButton type='primary' size='small' onClick={()=>this.charge(id,this.state.quantity)}>支付</AtButton> 
       </View >
     )
   }

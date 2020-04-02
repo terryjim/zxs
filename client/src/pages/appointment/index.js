@@ -188,7 +188,7 @@ export default class Order extends Component {
         <AtButton  type='primary' onClick={this.onSearch}>桌位查询</AtButton>
        
       {this.state.selectPersChecked==='单人'?(<View>
-        <DarkArea occupied={this.state.occupied} onGridClick={this.onGridClick} />
+        <DarkArea  occupied={this.state.occupied} onGridClick={this.onGridClick} />
         <DayArea occupied={this.state.occupied} onGridClick={this.onGridClick} />     
         <CurtainArea occupied={this.state.occupied} onGridClick={this.onGridClick} />
         <Vip1Area occupied={this.state.occupied} onGridClick={this.onGridClick} /></View>):
