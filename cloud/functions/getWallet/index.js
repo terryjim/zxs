@@ -1,3 +1,7 @@
+/**
+ * 获取未消费课程信息
+ *  联合查询wallet/product/user表
+ */
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 cloud.init()
